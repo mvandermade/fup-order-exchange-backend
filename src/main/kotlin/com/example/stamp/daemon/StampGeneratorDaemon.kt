@@ -1,6 +1,6 @@
 package com.example.stamp.daemon
 
-import com.example.stamp.entity.StampEntity
+import com.example.stamp.entity.Stamp
 import com.example.stamp.provider.TimeProvider
 import com.example.stamp.repository.StampRepository
 import org.slf4j.LoggerFactory
@@ -49,9 +49,9 @@ class StampGeneratorDaemon(
         throw RuntimeException("Too many exceptions during code generation")
     }
 
-    fun persistPostzegel(randomCode: String): StampEntity {
+    fun persistPostzegel(randomCode: String): Stamp {
         val entity =
-            StampEntity().apply {
+            Stamp().apply {
                 version = null // Creates a new row
                 code = randomCode
                 timeMillis = timeProvider.currentTimeMillis()
