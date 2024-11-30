@@ -1,12 +1,11 @@
 package com.example.stamp.entity
 
-import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
+import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import jakarta.persistence.Temporal
 import jakarta.persistence.TemporalType
@@ -16,19 +15,20 @@ import java.time.Instant
 
 @Entity
 @Table(name = "orders")
-class Order(
-) {
+class Order() {
     @Id
     @GeneratedValue
     var id: Long = 0
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH], mappedBy = "order")
-    var stamps: MutableList<Stamp> = mutableListOf()
+    @OneToOne(fetch = FetchType.LAZY)
+    var stamp: Stamp? = null
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date", updatable = false)
     var createDate: Instant? = null
+
+    var cpConfirmed: Boolean = false
 
     final override fun equals(other: Any?): Boolean {
         if (this === other) return true

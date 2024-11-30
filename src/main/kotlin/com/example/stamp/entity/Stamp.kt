@@ -6,9 +6,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToMany
+import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import jakarta.persistence.Version
 import org.hibernate.proxy.HibernateProxy
@@ -22,8 +20,7 @@ class Stamp(
     var code: String = "",
     @Column
     var timeMillis: Long = 0L,
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    @JoinColumn(name = "order_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     var order: Order? = null,
 ) {
     @Id

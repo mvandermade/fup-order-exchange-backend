@@ -1,6 +1,6 @@
 package com.example.stamp.mapper
 
-import com.example.stamp.domain.StampResponse
+import com.example.stamp.controller.response.StampResponse
 import com.example.stamp.entity.Stamp
 import org.springframework.stereotype.Component
 
