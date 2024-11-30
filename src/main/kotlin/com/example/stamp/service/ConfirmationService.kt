@@ -15,6 +15,6 @@ class ConfirmationService(
             orderRepository.findByIdOrNull(request.orderId)
                 ?: throw OrderNotFoundException(request.orderId)
 
-        orderRepository.save(order.apply { cpConfirmed = true })
+        orderRepository.save(order.apply { orderConfirmed = true })
     }
 }

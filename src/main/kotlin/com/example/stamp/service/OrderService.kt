@@ -1,6 +1,6 @@
 package com.example.stamp.service
 
-import com.example.stamp.domain.OrderResponse
+import com.example.stamp.controller.response.OrderResponse
 import com.example.stamp.entity.Order
 import com.example.stamp.mapper.OrderMapper
 import com.example.stamp.repository.OrderRepository

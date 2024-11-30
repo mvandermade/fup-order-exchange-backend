@@ -1,6 +1,9 @@
 package com.example.stamp.daemon
 
+import com.example.stamp.provider.RandomProvider
 import com.example.stamp.repository.StampRepository
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -18,16 +21,22 @@ class StampGeneratorDaemonTest(
         stampRepository.deleteAll()
     }
 
+    @MockkBean
+    private lateinit var randomProvider: RandomProvider
+
     @Test
     fun `Should persist code`() {
-        stampGeneratorDaemon.persistPostzegel("A")
+        every { randomProvider.randomString(any()) } returns "test"
+        stampGeneratorDaemon.persistRandomStamp()
     }
 
     @Test
     fun `Expect error code is not unique`() {
-        stampGeneratorDaemon.persistPostzegel("A")
+        every { randomProvider.randomString(any()) } returns "test"
+
+        stampGeneratorDaemon.persistRandomStamp()
         assertThrows<DataIntegrityViolationException> {
-            stampGeneratorDaemon.persistPostzegel("A")
+            stampGeneratorDaemon.persistRandomStamp()
         }
     }
 }

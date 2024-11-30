@@ -1,6 +1,6 @@
 package com.example.stamp.mapper
 
-import com.example.stamp.domain.OrderResponse
+import com.example.stamp.controller.response.OrderResponse
 import com.example.stamp.entity.Order
 import org.springframework.stereotype.Component
 
@@ -9,7 +9,7 @@ class OrderMapper {
     fun toResponse(order: Order): OrderResponse {
         return OrderResponse(
             order.id,
-            order.createDate,
+            order.createdAt,
         )
     }
 }

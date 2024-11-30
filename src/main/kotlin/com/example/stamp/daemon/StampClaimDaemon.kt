@@ -1,34 +1,21 @@
 package com.example.stamp.daemon
 
-import com.example.stamp.repository.OrderRepository
-import com.example.stamp.repository.StampRepository
+import com.example.stamp.service.StampOrderService
+import org.slf4j.LoggerFactory
+import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
 @Component
+@Profile("!test")
 class StampClaimDaemon(
-    private val stampRepository: StampRepository,
-    private val orderRepository: OrderRepository,
+    private val stampOrderService: StampOrderService,
 ) {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @Scheduled(fixedDelay = 20_000, initialDelay = 10_000)
-    fun attachStampsToOrders() {
-        val stamp =
-            stampRepository.getFirstByOrderIdIsNull()
-                ?: return
-
-        val order =
-            orderRepository.getFirstByCpConfirmedIsTrueAndStampIsNull()
-                ?: return
-
-        // Version 0 proves right to the postzegel, fresh ones are null
-        stamp.version = 0
-        stamp.order = order
-        // Flush to expect DataIntegrityViolation
-        stampRepository.save(stamp)
-        // Other side of relation
-        order.stamp = stamp
-        orderRepository.save(order)
-
-        println("Stamp saved!")
+    fun lookForStamps() {
+        logger.info("Attempt to claim loose stamps...")
+        stampOrderService.attachStampsToAny()
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class StampController(
     private val stampService: StampService,
 ) {
-    @GetMapping("/collect/{orderId}")
+    @GetMapping("/collect-order/{orderId}")
     fun getStamp(
         @PathVariable orderId: Long,
     ): StampResponse? {

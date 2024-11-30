@@ -1,3 +1,5 @@
 package com.example.stamp.exception
 
-class OrderNotFoundException(origin: Long) : ResponseException(ExceptionCode.NOT_FOUND, origin.toString())
+import org.springframework.http.HttpStatus
+
+class OrderNotFoundException(origin: Long) : ResponseException(HttpStatus.NOT_FOUND, origin.toString())

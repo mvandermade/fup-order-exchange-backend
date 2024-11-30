@@ -2,7 +2,6 @@ package com.example.stamp.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.OneToOne
@@ -20,15 +19,15 @@ class Order() {
     @GeneratedValue
     var id: Long = 0
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "order")
     var stamp: Stamp? = null
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date", updatable = false)
-    var createDate: Instant? = null
+    @Column(name = "created_at", updatable = false)
+    var createdAt: Instant? = null
 
-    var cpConfirmed: Boolean = false
+    var orderConfirmed: Boolean = false
 
     final override fun equals(other: Any?): Boolean {
         if (this === other) return true
