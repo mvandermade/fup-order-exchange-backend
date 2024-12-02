@@ -11,3 +11,4 @@ spring.datasource.url=jdbc:h2:file:~/test
 
 # TODO
 - Add exception catcher for REST endpoint
+- Package the app https://docs.spring.io/spring-boot/gradle-plugin/packaging-oci-image.html#build-image.customization
