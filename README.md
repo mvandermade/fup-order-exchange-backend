@@ -29,10 +29,3 @@ spring.datasource.url=jdbc:h2:file:~/test
 Using create-drop in application.properties the tables are automatically generated, in the tests these are generated using liquibase.
 For upgrades, it is handy to use liquibase because you can do migrations, and you have more control over the database structure.
 In the test files the create-drop is replaced by validate.
-
-# TODO
-- Add exception catcher for REST endpoint
-- Package the app https://docs.spring.io/spring-boot/gradle-plugin/packaging-oci-image.html#build-image.customization
-- Add mysql to test
-- Add testcontainers
-- Add liquibase

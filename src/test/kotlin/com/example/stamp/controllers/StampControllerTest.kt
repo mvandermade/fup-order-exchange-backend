@@ -30,7 +30,7 @@ class StampControllerTest(
         val stamp = stampRepository.save(Stamp())
 
         val result =
-            mockMvc.perform(get("$PATH/collect-order/${order.id}"))
+            mockMvc.perform(get("$PATH/collect/${order.id}"))
                 .andExpect(status().isOk)
                 .andReturn().let { objectMapper.readValue<StampResponse>(it.response.contentAsString) }
 
