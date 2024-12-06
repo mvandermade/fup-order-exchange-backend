@@ -1,1 +1,1 @@
-rootProject.name = "made-funicular-postzegel"
+rootProject.name = "made-funicular-postzegel-backend"
