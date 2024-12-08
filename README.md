@@ -25,6 +25,11 @@ Use in application.properties to persits a file which you can link to in most ed
 spring.datasource.url=jdbc:h2:file:~/test
 ```
 
+## Testing
+The annotation dirties context is in place to ensure a clean database each run.
+This might be possible to solve when tests clean up after themselves.
+I tried using @Transaction on the test class but this gave odd results between test fun's.
+
 ## Databases
 Using create-drop in application.properties the tables are automatically generated, in the tests these are generated using liquibase.
 For upgrades, it is handy to use liquibase because you can do migrations, and you have more control over the database structure.

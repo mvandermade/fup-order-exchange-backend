@@ -5,7 +5,9 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import jakarta.persistence.Version
@@ -18,13 +20,12 @@ class Stamp(
     var version: Long? = null,
     @Column(unique = true)
     var code: String = "",
-    @Column
-    var timeMillis: Long = 0L,
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
+    @JoinColumn(name = "order_id")
     var order: Order? = null,
 ) {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long = 0
 
     final override fun equals(other: Any?): Boolean {

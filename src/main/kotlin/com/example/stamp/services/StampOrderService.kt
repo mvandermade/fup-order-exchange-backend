@@ -17,7 +17,8 @@ class StampOrderService(
 
     fun attachStampsToOrder(order: Order): Stamp {
         logger.info("Attach stamp to order: ${order.id}")
-        val stamp = stampRepository.getFirstByOrderIdIsNull()
+        val stamp = stampRepository.findFirstByOrderIsNull()
+
         if (stamp == null) {
             logger.warn("Attach failed, no stamps left in the database for user")
             throw WaitingForStampException(order.id)
@@ -36,7 +37,7 @@ class StampOrderService(
         attachStampsToOrder(order)
     }
 
-    private fun attemptToLink(
+    fun attemptToLink(
         order: Order,
         stamp: Stamp,
     ): Stamp {

@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class OrderMapperTest {
-    val orderMapper = OrderMapper()
+    private val orderMapper = OrderMapper()
 
     @Test
     fun `Map response`() {
