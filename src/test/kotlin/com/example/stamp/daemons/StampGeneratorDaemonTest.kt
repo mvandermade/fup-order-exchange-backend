@@ -13,7 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.test.annotation.DirtiesContext
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+
 class StampGeneratorDaemonTest(
     @Autowired private val stampRepository: StampRepository,
     @Autowired private val stampGeneratorDaemon: StampGeneratorDaemon,

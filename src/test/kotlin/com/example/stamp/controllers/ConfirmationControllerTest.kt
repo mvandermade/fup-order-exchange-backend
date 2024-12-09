@@ -6,6 +6,7 @@ import com.example.stamp.repositories.OrderRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -19,12 +20,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+
 class ConfirmationControllerTest(
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val orderRepository: OrderRepository,
 ) {
+    @BeforeEach
+    fun setUp() {
+        orderRepository.deleteAll()
+    }
+
     @Test
     fun `Put order in database and be able to confirm it`() {
         val order =

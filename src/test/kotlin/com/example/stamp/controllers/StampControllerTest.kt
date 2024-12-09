@@ -8,6 +8,7 @@ import com.example.stamp.repositories.StampRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -19,13 +20,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+
 class StampControllerTest(
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
 ) {
+    @BeforeEach
+    fun setUp() {
+        orderRepository.deleteAll()
+        stampRepository.deleteAll()
+    }
+
     @Test
     fun `Should get a stamp after waiting a bit`() {
         val order = orderRepository.save(Order().apply { orderConfirmed = true })
