@@ -10,10 +10,8 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.test.annotation.DirtiesContext
 
 @SpringBootTest
-
 class StampGeneratorDaemonTest(
     @Autowired private val stampRepository: StampRepository,
     @Autowired private val stampGeneratorDaemon: StampGeneratorDaemon,

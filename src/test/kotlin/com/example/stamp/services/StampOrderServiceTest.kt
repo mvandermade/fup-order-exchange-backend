@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.system.CapturedOutput
 import org.springframework.boot.test.system.OutputCaptureExtension
 import org.springframework.orm.ObjectOptimisticLockingFailureException
-import org.springframework.test.annotation.DirtiesContext
 
 @SpringBootTest
 @ExtendWith(OutputCaptureExtension::class)
@@ -45,7 +44,7 @@ class StampOrderServiceTest(
         stampOrderService.attemptToLink(order1, stamp1)
 
         assertThat(output.out.lines())
-            .filteredOn{ element -> element.contains("Stamp attached!")}
+            .filteredOn { element -> element.contains("Stamp attached!") }
             .hasSize(1)
 
         assertThrows<ObjectOptimisticLockingFailureException> {

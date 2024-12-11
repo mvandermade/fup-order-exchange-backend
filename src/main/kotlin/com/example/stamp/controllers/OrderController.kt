@@ -2,6 +2,7 @@ package com.example.stamp.controllers
 
 import com.example.stamp.exceptions.ResponseException
 import com.example.stamp.mappers.ExceptionMapper
+import com.example.stamp.mappers.OrderMapper
 import com.example.stamp.services.OrderService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -14,10 +15,16 @@ import org.springframework.web.bind.annotation.RestController
 class OrderController(
     private val orderService: OrderService,
     private val exceptionMapper: ExceptionMapper,
+    private val orderMapper: OrderMapper,
 ) {
     // TODO expand this to also accept more interesting things. For now we order 1 stamp.
     @PostMapping
-    fun requestOrder() = ResponseEntity.ok(orderService.requestOrder())
+    fun requestOrder() =
+        ResponseEntity.ok(
+            orderMapper.toResponse(
+                orderService.requestOrder(),
+            ),
+        )
 
     @ExceptionHandler(ResponseException::class)
     fun defaultHandler(e: ResponseException): ResponseEntity<String> {
