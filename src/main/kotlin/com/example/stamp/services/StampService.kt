@@ -10,23 +10,23 @@ import org.springframework.stereotype.Service
 
 @Service
 class StampService(
-    private val orderRepository: OrderFullRepository,
-    private val stampOrderService: StampOrderService,
+    private val orderFullRepository: OrderFullRepository,
+    private val orderStampService: OrderStampService,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     fun attemptStampCollection(orderId: Long): Stamp {
-        val order = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundException(orderId)
+        val order = orderFullRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundException(orderId)
         if (!order.orderConfirmed) {
             throw OrderNotConfirmedException(orderId)
         }
 
-        if (order.stamp != null) {
+        if (order.orderStamp?.stamp != null) {
             logger.info("Serving stamp from database")
         } else {
             logger.info("Trying to attach stamp immediately...")
         }
 
-        return order.stamp ?: stampOrderService.attachStampsToOrder(order)
+        return order.orderStamp?.stamp ?: orderStampService.attachStampsToOrder(order)
     }
 }

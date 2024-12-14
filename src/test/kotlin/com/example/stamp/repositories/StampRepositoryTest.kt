@@ -1,6 +1,5 @@
 package com.example.stamp.repositories
 
-import com.example.stamp.entities.Stamp
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -14,20 +13,24 @@ class StampRepositoryTest(
     @Autowired val stampRepository: StampRepository,
 ) {
     @BeforeEach
-    fun setUp() {
-        stampRepository.deleteAll()
+    fun setUp(
+        @Autowired orderRepository: OrderRepository,
+        @Autowired orderStampRepository: OrderStampRepository,
+        @Autowired stampRepository: StampRepository,
+    ) {
+        orderStampRepository.deleteAllInBatch()
+        stampRepository.deleteAllInBatch()
+        orderRepository.deleteAllInBatch()
     }
 
     @Test
     fun `Should fetch a stamp without an order`() {
         val stamp =
             stampRepository.save(
-                minRandom<Stamp>().apply {
-                    this.order = null
-                },
+                minRandom(),
             )
 
-        assertNotNull(stampRepository.findFirstByOrderIsNull())
-        assertThat(stampRepository.findFirstByOrderIsNull()?.id).isEqualTo(stamp.id)
+        assertNotNull(stampRepository.findFirstByOrderStampIsNull())
+        assertThat(stampRepository.findFirstByOrderStampIsNull()?.id).isEqualTo(stamp.id)
     }
 }

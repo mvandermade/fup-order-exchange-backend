@@ -4,6 +4,7 @@ import com.example.stamp.controllers.responses.StampResponse
 import com.example.stamp.entities.Order
 import com.example.stamp.entities.Stamp
 import com.example.stamp.repositories.OrderRepository
+import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -26,9 +27,14 @@ class StampControllerTest(
     @Autowired private val stampRepository: StampRepository,
 ) {
     @BeforeEach
-    fun setUp() {
-        orderRepository.deleteAll()
-        stampRepository.deleteAll()
+    fun setUp(
+        @Autowired orderRepository: OrderRepository,
+        @Autowired orderStampRepository: OrderStampRepository,
+        @Autowired stampRepository: StampRepository,
+    ) {
+        orderStampRepository.deleteAllInBatch()
+        stampRepository.deleteAllInBatch()
+        orderRepository.deleteAllInBatch()
     }
 
     @Test
@@ -37,7 +43,6 @@ class StampControllerTest(
         stampRepository.save(
             Stamp().apply {
                 this.code = "ABCD"
-                this.order = null
             },
         )
 

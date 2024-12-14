@@ -11,29 +11,12 @@
             </column>
             <column name="version" type="bigint"/>
             <column name="code" type="varchar(255)"/>
-            <column name="order_id" type="bigint">
-                <constraints nullable="true"/>
-            </column>
         </createTable>
 
         <addUniqueConstraint
                 columnNames="code"
                 constraintName="code_unique"
                 tableName="stamps"
-        />
-
-        <addUniqueConstraint
-                columnNames="order_id"
-                constraintName="order_id_unique"
-                tableName="stamps"
-        />
-
-        <addForeignKeyConstraint
-                baseColumnNames="order_id"
-                baseTableName="stamps"
-                constraintName="fk_stamp_order"
-                referencedColumnNames="id"
-                referencedTableName="orders"
         />
     </changeSet>
 

@@ -1,6 +1,8 @@
 package com.example.stamp.daemons
 
 import com.example.stamp.providers.RandomProvider
+import com.example.stamp.repositories.OrderRepository
+import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
@@ -17,8 +19,14 @@ class StampGeneratorDaemonTest(
     @Autowired private val stampGeneratorDaemon: StampGeneratorDaemon,
 ) {
     @BeforeEach
-    fun before() {
-        stampRepository.deleteAll()
+    fun setUp(
+        @Autowired orderRepository: OrderRepository,
+        @Autowired orderStampRepository: OrderStampRepository,
+        @Autowired stampRepository: StampRepository,
+    ) {
+        orderStampRepository.deleteAllInBatch()
+        stampRepository.deleteAllInBatch()
+        orderRepository.deleteAllInBatch()
     }
 
     @MockkBean

@@ -17,11 +17,11 @@ import java.time.OffsetDateTime
 @Table(name = "orders")
 class Order() {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long = 0
 
     @OneToOne(mappedBy = "order")
-    var stamp: Stamp? = null
+    var orderStamp: OrderStamp? = null
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,7 +40,7 @@ class Order() {
         if (thisEffectiveClass != oEffectiveClass) return false
         other as Order
 
-        return id != null && id == other.id
+        return id == other.id
     }
 
     final override fun hashCode(): Int =

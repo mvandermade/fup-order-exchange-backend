@@ -1,31 +1,24 @@
 package com.example.stamp.entities
 
-import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import jakarta.persistence.Version
 import org.hibernate.proxy.HibernateProxy
 
 @Entity
 @Table(name = "stamps")
 class Stamp(
-    @Version
-    var version: Long? = null,
     @Column(unique = true)
     var code: String = "",
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
-    @JoinColumn(name = "order_id")
-    var order: Order? = null,
+    @OneToOne(mappedBy = "stamp")
+    var orderStamp: OrderStamp? = null,
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long = 0
 
     final override fun equals(other: Any?): Boolean {
@@ -38,7 +31,7 @@ class Stamp(
         if (thisEffectiveClass != oEffectiveClass) return false
         other as Stamp
 
-        return id != null && id == other.id
+        return id == other.id
     }
 
     final override fun hashCode(): Int =

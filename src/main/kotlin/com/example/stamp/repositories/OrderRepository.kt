@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface OrderRepository : JpaRepository<Order, Long> {
-    fun getReferenceFirstByOrderConfirmedIsTrueAndStampIsNullOrderByCreatedAtAsc(): Order?
+    fun getReferenceFirstByOrderConfirmedIsTrueAndOrderStampIsNullOrderByCreatedAtAsc(): Order?
 }

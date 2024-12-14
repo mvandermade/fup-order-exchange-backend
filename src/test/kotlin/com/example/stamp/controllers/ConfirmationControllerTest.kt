@@ -3,6 +3,8 @@ package com.example.stamp.controllers
 import com.example.stamp.controllers.requests.OrderConfirmRequest
 import com.example.stamp.entities.Order
 import com.example.stamp.repositories.OrderRepository
+import com.example.stamp.repositories.OrderStampRepository
+import com.example.stamp.repositories.StampRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
@@ -25,8 +27,14 @@ class ConfirmationControllerTest(
     @Autowired private val orderRepository: OrderRepository,
 ) {
     @BeforeEach
-    fun setUp() {
-        orderRepository.deleteAll()
+    fun setUp(
+        @Autowired orderRepository: OrderRepository,
+        @Autowired orderStampRepository: OrderStampRepository,
+        @Autowired stampRepository: StampRepository,
+    ) {
+        orderStampRepository.deleteAllInBatch()
+        stampRepository.deleteAllInBatch()
+        orderRepository.deleteAllInBatch()
     }
 
     @Test

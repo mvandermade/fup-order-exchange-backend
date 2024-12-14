@@ -12,4 +12,3 @@ class Test
 - Package the app https://docs.spring.io/spring-boot/gradle-plugin/packaging-oci-image.html#build-image.customization
 - Add mysql to test
 - Add testcontainers
-- Add liquibase

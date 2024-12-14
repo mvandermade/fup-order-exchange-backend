@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="3" author="mvandermade">
+        <createTable tableName="order_stamps">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="stamp_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="order_id"
+                baseTableName="order_stamps"
+                constraintName="fk_orderstamps_order"
+                referencedColumnNames="id"
+                referencedTableName="orders"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="stamp_id"
+                baseTableName="order_stamps"
+                constraintName="fk_orderstamps_stamp"
+                referencedColumnNames="id"
+                referencedTableName="stamps"
+        />
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -8,6 +8,6 @@ import java.util.Optional
 
 @Repository
 interface OrderFullRepository : JpaRepository<Order, Long> {
-    @EntityGraph(attributePaths = ["stamp"], type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = ["orderStamp.stamp"])
     override fun findById(id: Long): Optional<Order>
 }
