@@ -1,40 +1,26 @@
 package com.example.stamp.services
 
+import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.entities.Stamp
 import com.example.stamp.repositories.OrderRepository
-import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.system.CapturedOutput
 import org.springframework.boot.test.system.OutputCaptureExtension
 import org.springframework.dao.DataIntegrityViolationException
 
-@SpringBootTest
+@SpringBootTestWithCleanup
 @ExtendWith(OutputCaptureExtension::class)
 class OrderStampServiceTest(
     @Autowired private val orderStampService: OrderStampService,
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
-    @Autowired private val orderStampRepository: OrderStampRepository,
 ) {
-    @BeforeEach
-    fun setUp(
-        @Autowired orderRepository: OrderRepository,
-        @Autowired orderStampRepository: OrderStampRepository,
-        @Autowired stampRepository: StampRepository,
-    ) {
-        orderStampRepository.deleteAllInBatch()
-        stampRepository.deleteAllInBatch()
-        orderRepository.deleteAllInBatch()
-    }
-
     @Test
     fun `Link results in logging`(output: CapturedOutput) {
         val order1 = orderRepository.save(minRandom())

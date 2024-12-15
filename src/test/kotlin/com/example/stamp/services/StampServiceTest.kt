@@ -1,5 +1,6 @@
 package com.example.stamp.services
 
+import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.entities.Order
 import com.example.stamp.entities.OrderStamp
 import com.example.stamp.entities.Stamp
@@ -10,13 +11,11 @@ import com.example.stamp.repositories.StampRepository
 import io.mockk.mockk
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+@SpringBootTestWithCleanup
 class StampServiceTest(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
@@ -29,17 +28,6 @@ class StampServiceTest(
             orderRepository = orderRepository,
             orderStampService = orderStampService,
         )
-
-    @BeforeEach
-    fun setUp(
-        @Autowired orderRepository: OrderRepository,
-        @Autowired orderStampRepository: OrderStampRepository,
-        @Autowired stampRepository: StampRepository,
-    ) {
-        orderStampRepository.deleteAllInBatch()
-        stampRepository.deleteAllInBatch()
-        orderRepository.deleteAllInBatch()
-    }
 
     @Test
     fun `Cannot collect because order is not confirmed`() {

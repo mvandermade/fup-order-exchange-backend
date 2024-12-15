@@ -19,4 +19,15 @@ class ExceptionMapper(
             ),
         )
     }
+
+    fun toGenericException(): String {
+        return objectMapper.writeValueAsString(
+            ResponseExceptionResponse(
+                500,
+                "Something went wrong",
+                "Unknown",
+                "Unknown",
+            ),
+        )
+    }
 }

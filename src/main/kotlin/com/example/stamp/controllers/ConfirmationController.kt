@@ -1,11 +1,9 @@
 package com.example.stamp.controllers
 
 import com.example.stamp.controllers.requests.OrderConfirmRequest
-import com.example.stamp.exceptions.ResponseException
 import com.example.stamp.mappers.ExceptionMapper
 import com.example.stamp.services.ConfirmationService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,11 +20,4 @@ class ConfirmationController(
     fun confirm(
         @RequestBody request: OrderConfirmRequest,
     ) = ResponseEntity.ok(confirmationService.confirm(request))
-
-    @ExceptionHandler(ResponseException::class)
-    fun defaultHandler(e: ResponseException): ResponseEntity<String> {
-        return ResponseEntity
-            .status(e.httpStatus)
-            .body(exceptionMapper.toResponseBody(e))
-    }
 }

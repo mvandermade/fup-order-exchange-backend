@@ -1,11 +1,9 @@
 package com.example.stamp.controllers
 
-import com.example.stamp.exceptions.ResponseException
 import com.example.stamp.mappers.ExceptionMapper
 import com.example.stamp.mappers.StampMapper
 import com.example.stamp.services.StampService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -26,11 +24,4 @@ class StampController(
             stampService.attemptStampCollection(orderId),
         ),
     )
-
-    @ExceptionHandler(ResponseException::class)
-    fun defaultHandler(e: ResponseException): ResponseEntity<String> {
-        return ResponseEntity
-            .status(e.httpStatus)
-            .body(exceptionMapper.toResponseBody(e))
-    }
 }
