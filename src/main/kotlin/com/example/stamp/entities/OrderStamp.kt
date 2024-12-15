@@ -16,7 +16,8 @@ class OrderStamp(
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinColumn(name = "order_id", nullable = false)
     var order: Order,
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
+    // Fetching eagerly because entity graph wasn't working...
+    @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.DETACH])
     @JoinColumn(name = "stamp_id")
     var stamp: Stamp,
 ) {

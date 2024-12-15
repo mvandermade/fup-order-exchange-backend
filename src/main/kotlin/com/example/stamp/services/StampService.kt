@@ -3,20 +3,20 @@ package com.example.stamp.services
 import com.example.stamp.entities.Stamp
 import com.example.stamp.exceptions.OrderNotConfirmedException
 import com.example.stamp.exceptions.OrderNotFoundException
-import com.example.stamp.repositories.OrderFullRepository
+import com.example.stamp.repositories.OrderRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class StampService(
-    private val orderFullRepository: OrderFullRepository,
+    private val orderRepository: OrderRepository,
     private val orderStampService: OrderStampService,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     fun attemptStampCollection(orderId: Long): Stamp {
-        val order = orderFullRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundException(orderId)
+        val order = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundException(orderId)
         if (!order.orderConfirmed) {
             throw OrderNotConfirmedException(orderId)
         }
