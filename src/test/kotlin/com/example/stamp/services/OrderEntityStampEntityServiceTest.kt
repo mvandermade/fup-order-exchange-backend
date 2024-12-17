@@ -1,7 +1,7 @@
 package com.example.stamp.services
 
 import com.example.stamp.annotations.SpringBootTestWithCleanup
-import com.example.stamp.entities.Stamp
+import com.example.stamp.entities.StampEntity
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.StampRepository
 import nl.wykorijnsburger.kminrandom.minRandom
@@ -16,7 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 @SpringBootTestWithCleanup
 @ExtendWith(OutputCaptureExtension::class)
-class OrderStampServiceTest(
+class OrderEntityStampEntityServiceTest(
     @Autowired private val orderStampService: OrderStampService,
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
@@ -25,14 +25,14 @@ class OrderStampServiceTest(
     fun `Link results in logging`(output: CapturedOutput) {
         val order1 = orderRepository.save(minRandom())
 
-        val stamp1 =
+        val stampEntity1 =
             stampRepository.save(
-                minRandom<Stamp>().apply {
+                minRandom<StampEntity>().apply {
                     this.code = "ABCD"
                 },
             )
 
-        orderStampService.attemptToLink(order1, stamp1)
+        orderStampService.attemptToLink(order1, stampEntity1)
 
         assertThat(output.out.lines())
             .filteredOn { element -> element.contains("Stamp attached!") }
@@ -44,17 +44,17 @@ class OrderStampServiceTest(
         val order1 = orderRepository.save(minRandom())
         val order2 = orderRepository.save(minRandom())
 
-        val stamp1 =
+        val stampEntity1 =
             stampRepository.save(
-                minRandom<Stamp>().apply {
+                minRandom<StampEntity>().apply {
                     this.code = "ABCD"
                 },
             )
 
-        orderStampService.attemptToLink(order1, stamp1)
+        orderStampService.attemptToLink(order1, stampEntity1)
 
         assertThrows<DataIntegrityViolationException> {
-            orderStampService.attemptToLink(order2, stamp1)
+            orderStampService.attemptToLink(order2, stampEntity1)
         }
     }
 }

@@ -1,18 +1,18 @@
 package com.example.stamp.mappers
 
-import com.example.stamp.entities.Stamp
+import com.example.stamp.entities.StampEntity
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class StampMapperTest {
+class StampEntityMapperTest {
     private val stampMapper = StampMapper()
 
     @Test
     fun `map response`() {
-        val stamp = minRandom<Stamp>()
-        val response = stampMapper.toResponse(stamp)
+        val stampEntity = minRandom<StampEntity>()
+        val response = stampMapper.toResponse(stampEntity)
 
-        assertThat(response.code).isEqualTo(stamp.code)
+        assertThat(response.code).isEqualTo(stampEntity.code)
     }
 }

@@ -1,9 +1,9 @@
 package com.example.stamp.services
 
 import com.example.stamp.annotations.SpringBootTestWithCleanup
-import com.example.stamp.entities.Order
-import com.example.stamp.entities.OrderStamp
-import com.example.stamp.entities.Stamp
+import com.example.stamp.entities.OrderEntity
+import com.example.stamp.entities.OrderStampEntity
+import com.example.stamp.entities.StampEntity
 import com.example.stamp.exceptions.OrderNotConfirmedException
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 
 @SpringBootTestWithCleanup
-class StampServiceTest(
+class StampEntityServiceTest(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
     @Autowired private val orderStampRepository: OrderStampRepository,
@@ -31,35 +31,35 @@ class StampServiceTest(
 
     @Test
     fun `Cannot collect because order is not confirmed`() {
-        val order =
+        val orderEntity =
             orderRepository.save(
-                minRandom<Order>().apply {
+                minRandom<OrderEntity>().apply {
                     orderConfirmed = false
                 },
             )
 
-        assertThrows<OrderNotConfirmedException> { stampService.attemptStampCollection(order.id) }
+        assertThrows<OrderNotConfirmedException> { stampService.attemptStampCollection(orderEntity.id) }
     }
 
     @Test
     fun `Can collect stamp code from database`() {
-        val order =
+        val orderEntity =
             orderRepository.save(
-                minRandom<Order>().apply {
+                minRandom<OrderEntity>().apply {
                     orderConfirmed = true
                 },
             )
-        val stamp =
+        val stampEntity =
             stampRepository.save(
-                minRandom<Stamp>().apply {
+                minRandom<StampEntity>().apply {
                     this.code = "ABCD"
                 },
             )
         orderStampRepository.save(
-            OrderStamp(order, stamp),
+            OrderStampEntity(orderEntity, stampEntity),
         )
 
-        val collectedStamp = stampService.attemptStampCollection(order.id)
+        val collectedStamp = stampService.attemptStampCollection(orderEntity.id)
 
         assertThat(collectedStamp.code).isEqualTo("ABCD")
     }

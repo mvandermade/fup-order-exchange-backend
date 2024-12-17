@@ -2,8 +2,8 @@ package com.example.stamp.controllers
 
 import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.controllers.responses.StampResponse
-import com.example.stamp.entities.Order
-import com.example.stamp.entities.Stamp
+import com.example.stamp.entities.OrderEntity
+import com.example.stamp.entities.StampEntity
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.StampRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTestWithCleanup
 @AutoConfigureMockMvc
-class StampControllerTest(
+class StampEntityControllerTest(
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val orderRepository: OrderRepository,
@@ -27,15 +27,15 @@ class StampControllerTest(
 ) {
     @Test
     fun `Should get a stamp after waiting a bit`() {
-        val order = orderRepository.save(Order().apply { orderConfirmed = true })
+        val orderEntity = orderRepository.save(OrderEntity().apply { orderConfirmed = true })
         stampRepository.save(
-            Stamp().apply {
+            StampEntity().apply {
                 this.code = "ABCD"
             },
         )
 
         val result =
-            mockMvc.perform(get("$PATH/collect/${order.id}"))
+            mockMvc.perform(get("$PATH/collect/${orderEntity.id}"))
                 .andExpect(status().isOk)
                 .andReturn().let { objectMapper.readValue<StampResponse>(it.response.contentAsString) }
 

@@ -1,6 +1,6 @@
 package com.example.stamp.daemons
 
-import com.example.stamp.entities.Stamp
+import com.example.stamp.entities.StampEntity
 import com.example.stamp.providers.RandomProvider
 import com.example.stamp.repositories.StampRepository
 import org.slf4j.LoggerFactory
@@ -32,7 +32,7 @@ class StampGeneratorDaemon(
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun persistRandomStamp() {
         val entity =
-            Stamp(
+            StampEntity(
                 code = randomProvider.randomString(1),
             )
         stampRepository.save(entity)

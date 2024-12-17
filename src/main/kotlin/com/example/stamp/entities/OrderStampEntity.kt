@@ -12,14 +12,14 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "order_stamps")
-class OrderStamp(
+class OrderStampEntity(
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.DETACH])
     @JoinColumn(name = "order_id", nullable = false)
-    var order: Order,
+    var orderEntity: OrderEntity,
     // Fetching eagerly because entity graph wasn't working...
     @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.DETACH])
     @JoinColumn(name = "stamp_id")
-    var stamp: Stamp,
+    var stampEntity: StampEntity,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

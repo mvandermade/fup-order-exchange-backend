@@ -1,9 +1,11 @@
 package com.example.stamp.services
 
-import com.example.stamp.entities.Order
-import com.example.stamp.entities.OrderStamp
-import com.example.stamp.entities.Stamp
+import com.example.stamp.entities.OrderEntity
+import com.example.stamp.entities.OrderStampEntity
+import com.example.stamp.entities.StampEntity
 import com.example.stamp.exceptions.WaitingForStampException
+import com.example.stamp.mappers.StampMapper
+import com.example.stamp.models.Stamp
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
@@ -17,22 +19,23 @@ class OrderStampService(
     private val stampRepository: StampRepository,
     private val orderRepository: OrderRepository,
     private val orderStampRepository: OrderStampRepository,
+    private val stampMapper: StampMapper,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     @Transactional(rollbackFor = [Exception::class])
-    fun attachStampsToOrder(order: Order): Stamp {
-        logger.info("Attach stamp to order: ${order.id}")
+    fun attachStampsToOrder(orderEntity: OrderEntity): Stamp {
+        logger.info("Attach stamp to order: ${orderEntity.id}")
         val stamp = stampRepository.findFirstByOrderStampIsNull()
 
         if (stamp == null) {
             logger.warn("Attach failed, no stamps left in the database for user")
-            throw WaitingForStampException(order.id)
+            throw WaitingForStampException(orderEntity.id)
         }
 
-        attemptToLink(order, stamp)
+        attemptToLink(orderEntity, stamp)
 
-        return stamp
+        return stampMapper.toStamp(stamp)
     }
 
     @Transactional(rollbackFor = [Exception::class])
@@ -48,11 +51,11 @@ class OrderStampService(
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = [Exception::class])
     fun attemptToLink(
-        order: Order,
-        stamp: Stamp,
+        orderEntity: OrderEntity,
+        stampEntity: StampEntity,
     ) {
         orderStampRepository.save(
-            OrderStamp(order, stamp),
+            OrderStampEntity(orderEntity, stampEntity),
         )
         logger.info("Stamp attached!")
     }

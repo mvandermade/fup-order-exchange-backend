@@ -2,7 +2,7 @@ package com.example.stamp.controllers
 
 import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.controllers.requests.OrderConfirmRequest
-import com.example.stamp.entities.Order
+import com.example.stamp.entities.OrderEntity
 import com.example.stamp.repositories.OrderRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import nl.wykorijnsburger.kminrandom.minRandom
@@ -26,14 +26,14 @@ class ConfirmationControllerTest(
 ) {
     @Test
     fun `Put order in database and be able to confirm it`() {
-        val order =
+        val orderEntity =
             orderRepository.save(
-                minRandom<Order>().apply {
+                minRandom<OrderEntity>().apply {
                     orderConfirmed = false
                 },
             )
 
-        val request = OrderConfirmRequest(orderId = order.id)
+        val request = OrderConfirmRequest(orderId = orderEntity.id)
 
         mockMvc.perform(
             put(PATH)
@@ -42,8 +42,8 @@ class ConfirmationControllerTest(
         ).andExpect(status().isOk)
 
         val orderInDB =
-            orderRepository.findByIdOrNull(order.id)
-                ?: throw NullPointerException("order ${order.id} not found")
+            orderRepository.findByIdOrNull(orderEntity.id)
+                ?: throw NullPointerException("order ${orderEntity.id} not found")
 
         assertThat(orderInDB.orderConfirmed).isTrue()
     }

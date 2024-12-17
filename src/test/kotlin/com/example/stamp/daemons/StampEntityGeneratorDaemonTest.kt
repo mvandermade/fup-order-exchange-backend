@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataIntegrityViolationException
 
 @SpringBootTestWithCleanup
-class StampGeneratorDaemonTest(
+class StampEntityGeneratorDaemonTest(
     @Autowired private val stampRepository: StampRepository,
     @Autowired private val stampGeneratorDaemon: StampGeneratorDaemon,
 ) {
