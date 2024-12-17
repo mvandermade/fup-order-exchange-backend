@@ -26,7 +26,7 @@ class OrderStampService(
     @Transactional(rollbackFor = [Exception::class])
     fun attachStampsToOrder(orderEntity: OrderEntity): Stamp {
         logger.info("Attach stamp to order: ${orderEntity.id}")
-        val stamp = stampRepository.findFirstByOrderStampIsNull()
+        val stamp = stampRepository.findFirstByOrderStampEntityIsNull()
 
         if (stamp == null) {
             logger.warn("Attach failed, no stamps left in the database for user")
@@ -41,7 +41,7 @@ class OrderStampService(
     @Transactional(rollbackFor = [Exception::class])
     fun attachStampsToEarliestCreatedAt() {
         val order =
-            orderRepository.getReferenceFirstByOrderConfirmedIsTrueAndOrderStampIsNullOrderByCreatedAtAsc()
+            orderRepository.getReferenceFirstByOrderConfirmedIsTrueAndOrderStampEntityIsNullOrderByCreatedAtAsc()
         if (order == null) {
             logger.info("No open orders, going to sleep")
             return

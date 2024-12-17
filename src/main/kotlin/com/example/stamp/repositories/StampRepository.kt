@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface StampRepository : JpaRepository<StampEntity, Long> {
-    fun findFirstByOrderStampIsNull(): StampEntity?
+    fun findFirstByOrderStampEntityIsNull(): StampEntity?
 }

@@ -18,7 +18,7 @@ class StampEntityRepositoryTest(
                 minRandom(),
             )
 
-        assertNotNull(stampRepository.findFirstByOrderStampIsNull())
-        assertThat(stampRepository.findFirstByOrderStampIsNull()?.id).isEqualTo(stamp.id)
+        assertNotNull(stampRepository.findFirstByOrderStampEntityIsNull())
+        assertThat(stampRepository.findFirstByOrderStampEntityIsNull()?.id).isEqualTo(stamp.id)
     }
 }

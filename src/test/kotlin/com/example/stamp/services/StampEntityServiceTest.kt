@@ -5,6 +5,7 @@ import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
 import com.example.stamp.exceptions.OrderNotConfirmedException
+import com.example.stamp.mappers.StampMapper
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
@@ -20,6 +21,7 @@ class StampEntityServiceTest(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
     @Autowired private val orderStampRepository: OrderStampRepository,
+    @Autowired private val stampMapper: StampMapper,
 ) {
     private val orderStampService = mockk<OrderStampService>()
 
@@ -27,6 +29,7 @@ class StampEntityServiceTest(
         StampService(
             orderRepository = orderRepository,
             orderStampService = orderStampService,
+            stampMapper = stampMapper,
         )
 
     @Test
