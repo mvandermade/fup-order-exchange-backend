@@ -2,7 +2,7 @@ package com.example.stamp.exceptions
 
 import org.springframework.http.HttpStatus
 
-class OrderNotFoundException(origin: Long) : ResponseException(
+class OrderNotFoundV1Exception(origin: Long) : ResponseV1Exception(
     "Order not found",
     HttpStatus.NOT_FOUND,
     "orderId",

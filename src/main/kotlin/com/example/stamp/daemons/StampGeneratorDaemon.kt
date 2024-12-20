@@ -2,38 +2,44 @@ package com.example.stamp.daemons
 
 import com.example.stamp.entities.StampEntity
 import com.example.stamp.providers.RandomProvider
+import com.example.stamp.providers.TransactionProvider
 import com.example.stamp.repositories.StampRepository
 import org.slf4j.LoggerFactory
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
 
 @Component
 class StampGeneratorDaemon(
     private val stampRepository: StampRepository,
     private val randomProvider: RandomProvider,
+    private val transactionProvider: TransactionProvider,
 ) {
-    private val logger = LoggerFactory.getLogger(this::class.java)
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @Scheduled(fixedDelay = 1_000, initialDelay = 2_000)
-    @Transactional
     fun insertCodes() {
-        logger.info("Attempt to generate...")
         try {
-            persistRandomStamp()
-        } catch (e: DataIntegrityViolationException) {
-            logger.info("Random stamp was duplicated")
+            transactionProvider.newReadWrite {
+                persistRandomStamp()
+            }
+        } catch (e: Exception) {
+            if (e.message?.contains("Unique index or primary key violation:") == true) {
+                logger.info("Random stamp was duplicated")
+            } else {
+                e.printStackTrace()
+            }
         }
-        logger.info("Generated a stamp")
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun persistRandomStamp() {
+        val code = randomProvider.randomString(1)
+
+        // Prevent unneeded attempts cluttering the logs
+        if (stampRepository.findByCode(code) != null) return
+
         val entity =
             StampEntity(
-                code = randomProvider.randomString(1),
+                code = code,
             )
         stampRepository.save(entity)
     }

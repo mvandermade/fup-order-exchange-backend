@@ -1,17 +1,17 @@
 package com.example.stamp.mappers
 
-import com.example.stamp.controllers.responses.StampResponse
+import com.example.stamp.controllers.responses.StampV1Response
+import com.example.stamp.datatransferobjects.StampDTO
 import com.example.stamp.entities.StampEntity
-import com.example.stamp.models.Stamp
 import org.springframework.stereotype.Component
 
 @Component
 class StampMapper {
-    fun toResponse(stamp: Stamp): StampResponse {
-        return StampResponse(stamp.code)
+    fun toResponse(stampDTO: StampDTO): StampV1Response {
+        return StampV1Response(stampDTO.code)
     }
 
-    fun toStamp(stampEntity: StampEntity): Stamp {
-        return Stamp(stampEntity.code)
+    fun toDTO(stampEntity: StampEntity): StampDTO {
+        return StampDTO(stampEntity.code)
     }
 }

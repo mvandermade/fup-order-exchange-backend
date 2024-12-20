@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTestWithCleanup
 @AutoConfigureMockMvc
-class ConfirmationControllerTest(
+class ConfirmationsControllerTest(
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val orderRepository: OrderRepository,

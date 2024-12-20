@@ -1,7 +1,7 @@
 package com.example.stamp.controllers
 
 import com.example.stamp.annotations.SpringBootTestWithCleanup
-import com.example.stamp.controllers.responses.StampResponse
+import com.example.stamp.controllers.responses.StampV1Response
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.StampEntity
 import com.example.stamp.repositories.OrderRepository
@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTestWithCleanup
 @AutoConfigureMockMvc
-class StampEntityControllerTest(
+class StampDTOEntityControllerTest(
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val orderRepository: OrderRepository,
@@ -37,7 +37,7 @@ class StampEntityControllerTest(
         val result =
             mockMvc.perform(get("$PATH/collect/${orderEntity.id}"))
                 .andExpect(status().isOk)
-                .andReturn().let { objectMapper.readValue<StampResponse>(it.response.contentAsString) }
+                .andReturn().let { objectMapper.readValue<StampV1Response>(it.response.contentAsString) }
 
         assertThat(result.code).isEqualTo("ABCD")
     }

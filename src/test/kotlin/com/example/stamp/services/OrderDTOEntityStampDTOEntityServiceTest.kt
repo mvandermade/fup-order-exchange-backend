@@ -16,7 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 @SpringBootTestWithCleanup
 @ExtendWith(OutputCaptureExtension::class)
-class OrderEntityStampEntityServiceTest(
+class OrderDTOEntityStampDTOEntityServiceTest(
     @Autowired private val orderStampService: OrderStampService,
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,

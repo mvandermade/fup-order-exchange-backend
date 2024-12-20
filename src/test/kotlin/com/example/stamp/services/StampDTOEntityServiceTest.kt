@@ -4,7 +4,7 @@ import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
-import com.example.stamp.exceptions.OrderNotConfirmedException
+import com.example.stamp.exceptions.OrderNotConfirmedV1Exception
 import com.example.stamp.mappers.StampMapper
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 
 @SpringBootTestWithCleanup
-class StampEntityServiceTest(
+class StampDTOEntityServiceTest(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
     @Autowired private val orderStampRepository: OrderStampRepository,
@@ -41,7 +41,7 @@ class StampEntityServiceTest(
                 },
             )
 
-        assertThrows<OrderNotConfirmedException> { stampService.attemptStampCollection(orderEntity.id) }
+        assertThrows<OrderNotConfirmedV1Exception> { stampService.attemptStampCollection(orderEntity.id) }
     }
 
     @Test

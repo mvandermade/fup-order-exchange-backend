@@ -1,9 +1,9 @@
 package com.example.stamp.services
 
-import com.example.stamp.exceptions.OrderNotConfirmedException
-import com.example.stamp.exceptions.OrderNotFoundException
+import com.example.stamp.datatransferobjects.StampDTO
+import com.example.stamp.exceptions.OrderNotConfirmedV1Exception
+import com.example.stamp.exceptions.OrderNotFoundV1Exception
 import com.example.stamp.mappers.StampMapper
-import com.example.stamp.models.Stamp
 import com.example.stamp.repositories.OrderRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -17,10 +17,10 @@ class StampService(
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    fun attemptStampCollection(orderId: Long): Stamp {
-        val order = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundException(orderId)
+    fun attemptStampCollection(orderId: Long): StampDTO {
+        val order = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundV1Exception(orderId)
         if (!order.orderConfirmed) {
-            throw OrderNotConfirmedException(orderId)
+            throw OrderNotConfirmedV1Exception(orderId)
         }
 
         if (order.orderStampEntity?.stampEntity != null) {
@@ -30,7 +30,7 @@ class StampService(
         }
 
         val stamp =
-            order.orderStampEntity?.stampEntity?.let { stampMapper.toStamp(it) }
+            order.orderStampEntity?.stampEntity?.let { stampMapper.toDTO(it) }
                 ?: orderStampService.attachStampsToOrder(order)
 
         return stamp

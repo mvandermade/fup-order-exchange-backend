@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
 @SpringBootTestWithCleanup
-class StampEntityRepositoryTest(
+class StampDTOEntityRepositoryTest(
     @Autowired val stampRepository: StampRepository,
 ) {
     @Test

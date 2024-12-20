@@ -1,27 +1,27 @@
 package com.example.stamp.mappers
 
+import com.example.stamp.datatransferobjects.OrderDTO
 import com.example.stamp.entities.OrderEntity
-import com.example.stamp.models.Order
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class OrderEntityMapperTest {
+class OrderDTOEntityMapperTest {
     private val orderMapper = OrderMapper()
 
     @Test
     fun `Map order to response`() {
-        val order = minRandom<Order>()
-        val response = orderMapper.toResponse(order)
+        val orderDTO = minRandom<OrderDTO>()
+        val response = orderMapper.toResponse(orderDTO)
 
-        assertThat(response.orderId).isEqualTo(order.id)
-        assertThat(response.createdAt).isEqualTo(order.createdAt)
+        assertThat(response.orderId).isEqualTo(orderDTO.id)
+        assertThat(response.createdAt).isEqualTo(orderDTO.createdAt)
     }
 
     @Test
     fun `Map entity to order`() {
         val orderEntity = minRandom<OrderEntity>()
-        val order = orderMapper.toOrder(orderEntity)
+        val order = orderMapper.toDTO(orderEntity)
 
         assertThat(order.id).isEqualTo(orderEntity.id)
         assertThat(order.createdAt).isEqualTo(orderEntity.createdAt)

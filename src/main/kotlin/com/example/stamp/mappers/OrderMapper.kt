@@ -1,21 +1,21 @@
 package com.example.stamp.mappers
 
-import com.example.stamp.controllers.responses.OrderResponse
+import com.example.stamp.controllers.responses.OrderV1Response
+import com.example.stamp.datatransferobjects.OrderDTO
 import com.example.stamp.entities.OrderEntity
-import com.example.stamp.models.Order
 import org.springframework.stereotype.Component
 
 @Component
 class OrderMapper {
-    fun toResponse(order: Order): OrderResponse {
-        return OrderResponse(
-            order.id,
-            order.createdAt,
+    fun toResponse(orderDTO: OrderDTO): OrderV1Response {
+        return OrderV1Response(
+            orderDTO.id,
+            orderDTO.createdAt,
         )
     }
 
-    fun toOrder(orderEntity: OrderEntity): Order {
-        return Order(
+    fun toDTO(orderEntity: OrderEntity): OrderDTO {
+        return OrderDTO(
             orderEntity.id,
             orderEntity.createdAt,
             orderEntity.orderConfirmed,

@@ -1,7 +1,7 @@
 package com.example.stamp.controllers
 
 import com.example.stamp.annotations.SpringBootTestWithCleanup
-import com.example.stamp.controllers.responses.OrderResponse
+import com.example.stamp.controllers.responses.OrderV1Response
 import com.example.stamp.repositories.OrderRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTestWithCleanup
 @AutoConfigureMockMvc
-class OrderEntityControllerTest(
+class OrderDTOEntityControllerTest(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val mockMvc: MockMvc,
@@ -26,7 +26,7 @@ class OrderEntityControllerTest(
         val response =
             mockMvc.perform(post(PATH))
                 .andExpect(status().isOk)
-                .andReturn().let { objectMapper.readValue<OrderResponse>(it.response.contentAsString) }
+                .andReturn().let { objectMapper.readValue<OrderV1Response>(it.response.contentAsString) }
 
         //  Check if it is actually in the DB
         val orderInDB =

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface StampRepository : JpaRepository<StampEntity, Long> {
     fun findFirstByOrderStampEntityIsNull(): StampEntity?
+
+    fun findByCode(code: String): StampEntity?
 }
