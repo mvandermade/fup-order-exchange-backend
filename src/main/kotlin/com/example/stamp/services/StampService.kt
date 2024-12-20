@@ -1,7 +1,7 @@
 package com.example.stamp.services
 
 import com.example.stamp.datatransferobjects.StampDTO
-import com.example.stamp.exceptions.OrderNotConfirmedV1Exception
+import com.example.stamp.exceptions.OrderNotAcknowledgedV1Exception
 import com.example.stamp.exceptions.OrderNotFoundV1Exception
 import com.example.stamp.mappers.StampMapper
 import com.example.stamp.repositories.OrderRepository
@@ -19,8 +19,8 @@ class StampService(
 
     fun attemptStampCollection(orderId: Long): StampDTO {
         val order = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundV1Exception(orderId)
-        if (!order.orderConfirmed) {
-            throw OrderNotConfirmedV1Exception(orderId)
+        if (!order.orderIsAcknowledged) {
+            throw OrderNotAcknowledgedV1Exception(orderId)
         }
 
         if (order.orderStampEntity?.stampEntity != null) {

@@ -6,7 +6,7 @@ import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class OrderDTOEntityMapperTest {
+class OrderMapperTest {
     private val orderMapper = OrderMapper()
 
     @Test
@@ -15,7 +15,7 @@ class OrderDTOEntityMapperTest {
         val response = orderMapper.toResponse(orderDTO)
 
         assertThat(response.orderId).isEqualTo(orderDTO.id)
-        assertThat(response.createdAt).isEqualTo(orderDTO.createdAt)
+        assertThat(response.orderIsAcknowledged).isEqualTo(orderDTO.orderIsAcknowledged)
     }
 
     @Test

@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/v1/orders")
-class OrdersController(
+class OrdersV1Controller(
     private val orderService: OrderService,
     private val orderMapper: OrderMapper,
 ) {
     @PostMapping
     fun requestOrder() =
-        ResponseEntity.ok(
+        ResponseEntity.accepted().body(
             orderMapper.toResponse(
                 orderService.requestOrder(),
             ),

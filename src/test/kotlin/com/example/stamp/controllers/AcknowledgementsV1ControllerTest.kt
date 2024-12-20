@@ -1,7 +1,6 @@
 package com.example.stamp.controllers
 
 import com.example.stamp.annotations.SpringBootTestWithCleanup
-import com.example.stamp.controllers.requests.OrderConfirmRequest
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.repositories.OrderRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -12,14 +11,13 @@ import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTestWithCleanup
 @AutoConfigureMockMvc
-class ConfirmationsControllerTest(
+class AcknowledgementsV1ControllerTest(
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val orderRepository: OrderRepository,
@@ -29,33 +27,26 @@ class ConfirmationsControllerTest(
         val orderEntity =
             orderRepository.save(
                 minRandom<OrderEntity>().apply {
-                    orderConfirmed = false
+                    orderIsAcknowledged = false
                 },
             )
 
-        val request = OrderConfirmRequest(orderId = orderEntity.id)
-
         mockMvc.perform(
-            put(PATH)
-                .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)),
+            put("$PATH/orders/${orderEntity.id}"),
         ).andExpect(status().isOk)
 
         val orderInDB =
             orderRepository.findByIdOrNull(orderEntity.id)
                 ?: throw NullPointerException("order ${orderEntity.id} not found")
 
-        assertThat(orderInDB.orderConfirmed).isTrue()
+        assertThat(orderInDB.orderIsAcknowledged).isTrue()
     }
 
     @Test
     fun `Expect exception`() {
-        val request = OrderConfirmRequest(orderId = 0)
         val result =
             mockMvc.perform(
-                put(PATH)
-                    .contentType(APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)),
+                put("$PATH/orders/0"),
             ).andExpect(status().is4xxClientError).andReturn()
 
         JSONAssert.assertEquals(
@@ -73,6 +64,6 @@ class ConfirmationsControllerTest(
     }
 
     companion object {
-        const val PATH = "/v1/confirmations"
+        const val PATH = "/v1/acknowledgements"
     }
 }

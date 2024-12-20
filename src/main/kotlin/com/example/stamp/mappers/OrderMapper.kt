@@ -10,7 +10,7 @@ class OrderMapper {
     fun toResponse(orderDTO: OrderDTO): OrderV1Response {
         return OrderV1Response(
             orderDTO.id,
-            orderDTO.createdAt,
+            orderDTO.orderIsAcknowledged,
         )
     }
 
@@ -18,7 +18,7 @@ class OrderMapper {
         return OrderDTO(
             orderEntity.id,
             orderEntity.createdAt,
-            orderEntity.orderConfirmed,
+            orderEntity.orderIsAcknowledged,
         )
     }
 }

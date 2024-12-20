@@ -10,5 +10,9 @@
             <dbms type="h2"/>
         </or>
     </preConditions>
-    <includeAll path="changesets" relativeToChangelogFile="true"/>
+    <!--  include separately to preserve ordering  -->
+    <include relativeToChangelogFile="true" file="changesets/1-orders.xml"/>
+    <include relativeToChangelogFile="true" file="changesets/2-stamps.xml"/>
+    <include relativeToChangelogFile="true" file="changesets/3-order_stamps.xml"/>
+    <include relativeToChangelogFile="true" file="changesets/4-order_stamp_orderstamps_sequences.xml"/>
 </databaseChangeLog>

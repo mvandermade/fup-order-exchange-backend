@@ -4,7 +4,7 @@ import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
-import com.example.stamp.exceptions.OrderNotConfirmedV1Exception
+import com.example.stamp.exceptions.OrderNotAcknowledgedV1Exception
 import com.example.stamp.mappers.StampMapper
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 
 @SpringBootTestWithCleanup
-class StampDTOEntityServiceTest(
+class StampServiceTest(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
     @Autowired private val orderStampRepository: OrderStampRepository,
@@ -33,15 +33,15 @@ class StampDTOEntityServiceTest(
         )
 
     @Test
-    fun `Cannot collect because order is not confirmed`() {
+    fun `Cannot collect because order is not acknowledged`() {
         val orderEntity =
             orderRepository.save(
                 minRandom<OrderEntity>().apply {
-                    orderConfirmed = false
+                    orderIsAcknowledged = false
                 },
             )
 
-        assertThrows<OrderNotConfirmedV1Exception> { stampService.attemptStampCollection(orderEntity.id) }
+        assertThrows<OrderNotAcknowledgedV1Exception> { stampService.attemptStampCollection(orderEntity.id) }
     }
 
     @Test
@@ -49,7 +49,7 @@ class StampDTOEntityServiceTest(
         val orderEntity =
             orderRepository.save(
                 minRandom<OrderEntity>().apply {
-                    orderConfirmed = true
+                    orderIsAcknowledged = true
                 },
             )
         val stampEntity =

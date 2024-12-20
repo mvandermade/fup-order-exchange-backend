@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTestWithCleanup
 @AutoConfigureMockMvc
-class StampDTOEntityControllerTest(
+class StampsControllerV1Test(
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val orderRepository: OrderRepository,
@@ -27,7 +27,7 @@ class StampDTOEntityControllerTest(
 ) {
     @Test
     fun `Should get a stamp after waiting a bit`() {
-        val orderEntity = orderRepository.save(OrderEntity().apply { orderConfirmed = true })
+        val orderEntity = orderRepository.save(OrderEntity().apply { orderIsAcknowledged = true })
         stampRepository.save(
             StampEntity().apply {
                 this.code = "ABCD"

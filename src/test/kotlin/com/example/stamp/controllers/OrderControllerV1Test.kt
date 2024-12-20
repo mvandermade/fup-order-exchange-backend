@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTestWithCleanup
 @AutoConfigureMockMvc
-class OrderDTOEntityControllerTest(
+class OrderControllerV1Test(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val mockMvc: MockMvc,
@@ -25,7 +25,7 @@ class OrderDTOEntityControllerTest(
     fun `Fetching should persist order in database`() {
         val response =
             mockMvc.perform(post(PATH))
-                .andExpect(status().isOk)
+                .andExpect(status().isAccepted)
                 .andReturn().let { objectMapper.readValue<OrderV1Response>(it.response.contentAsString) }
 
         //  Check if it is actually in the DB
@@ -33,7 +33,7 @@ class OrderDTOEntityControllerTest(
             orderRepository.findByIdOrNull(response.orderId)
                 ?: throw NullPointerException("orderInDB")
 
-        assertThat(response.createdAt).isEqualTo(orderInDB.createdAt)
+        assertThat(response.orderIsAcknowledged).isEqualTo(orderInDB.orderIsAcknowledged)
     }
 
     @Test

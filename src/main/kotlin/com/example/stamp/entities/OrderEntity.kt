@@ -28,7 +28,7 @@ class OrderEntity() {
     @Column(name = "created_at", updatable = false)
     var createdAt: OffsetDateTime? = null
 
-    var orderConfirmed: Boolean = false
+    var orderIsAcknowledged: Boolean = false
 
     final override fun equals(other: Any?): Boolean {
         if (this === other) return true
