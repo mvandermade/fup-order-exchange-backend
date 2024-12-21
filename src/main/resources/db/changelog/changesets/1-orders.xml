@@ -13,7 +13,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
-            <column name="order_is_acknowledged" type="${type.boolean}"/>
+            <column name="order_is_confirmed" type="${type.boolean}"/>
         </createTable>
     </changeSet>
 

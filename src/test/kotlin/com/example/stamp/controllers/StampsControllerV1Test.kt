@@ -27,7 +27,7 @@ class StampsControllerV1Test(
 ) {
     @Test
     fun `Should get a stamp after waiting a bit`() {
-        val orderEntity = orderRepository.save(OrderEntity().apply { orderIsAcknowledged = true })
+        val orderEntity = orderRepository.save(OrderEntity().apply { orderIsConfirmed = true })
         stampRepository.save(
             StampEntity().apply {
                 this.code = "ABCD"

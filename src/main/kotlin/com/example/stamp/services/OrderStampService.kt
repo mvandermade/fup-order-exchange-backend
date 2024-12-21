@@ -37,7 +37,7 @@ class OrderStampService(
 
     fun attachStampsToEarliestCreatedAt() {
         val order =
-            orderRepository.getReferenceFirstByOrderIsAcknowledgedIsTrueAndOrderStampEntityIsNullOrderByCreatedAtAsc()
+            orderRepository.getReferenceFirstByOrderIsConfirmedIsTrueAndOrderStampEntityIsNullOrderByCreatedAtAsc()
                 ?: return
         attachStampsToOrder(order)
     }

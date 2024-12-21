@@ -4,7 +4,7 @@ import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
-import com.example.stamp.exceptions.OrderNotAcknowledgedV1Exception
+import com.example.stamp.exceptions.OrderNotConfirmedV1Exception
 import com.example.stamp.mappers.StampMapper
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
@@ -33,15 +33,15 @@ class StampServiceTest(
         )
 
     @Test
-    fun `Cannot collect because order is not acknowledged`() {
+    fun `Cannot collect because order is not confirmed`() {
         val orderEntity =
             orderRepository.save(
                 minRandom<OrderEntity>().apply {
-                    orderIsAcknowledged = false
+                    orderIsConfirmed = false
                 },
             )
 
-        assertThrows<OrderNotAcknowledgedV1Exception> { stampService.attemptStampCollection(orderEntity.id) }
+        assertThrows<OrderNotConfirmedV1Exception> { stampService.attemptStampCollection(orderEntity.id) }
     }
 
     @Test
@@ -49,7 +49,7 @@ class StampServiceTest(
         val orderEntity =
             orderRepository.save(
                 minRandom<OrderEntity>().apply {
-                    orderIsAcknowledged = true
+                    orderIsConfirmed = true
                 },
             )
         val stampEntity =
