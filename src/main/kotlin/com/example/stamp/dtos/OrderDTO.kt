@@ -1,4 +1,4 @@
-package com.example.stamp.datatransferobjects
+package com.example.stamp.dtos
 
 import java.time.OffsetDateTime
 

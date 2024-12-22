@@ -1,6 +1,6 @@
 package com.example.stamp.services
 
-import com.example.stamp.datatransferobjects.StampDTO
+import com.example.stamp.dtos.StampDTO
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity

@@ -1,6 +1,6 @@
 package com.example.stamp.mappers
 
-import com.example.stamp.datatransferobjects.OrderDTO
+import com.example.stamp.dtos.OrderDTO
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.StampEntity
 import nl.wykorijnsburger.kminrandom.minRandom

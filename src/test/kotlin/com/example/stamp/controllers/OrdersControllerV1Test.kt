@@ -25,14 +25,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTestWithCleanup
 @AutoConfigureMockMvc
-class OrderControllerV1Test(
+class OrdersControllerV1Test(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val stampRepository: StampRepository,
 ) {
     @Test
-    fun `Fetching should persist order in database`() {
+    fun `POST should persist order in database but not confirm it`() {
         val response =
             mockMvc.perform(post(PATH))
                 .andExpect(status().isAccepted)
@@ -43,7 +43,8 @@ class OrderControllerV1Test(
             orderRepository.findByIdOrNull(response.id)
                 ?: throw NullPointerException("orderInDB")
 
-        assertThat(response.orderIsConfirmed).isEqualTo(orderInDB.orderIsConfirmed)
+        assertThat(response.id).isEqualTo(orderInDB.id)
+        assertThat(response.orderIsConfirmed).isFalse()
     }
 
     @Nested

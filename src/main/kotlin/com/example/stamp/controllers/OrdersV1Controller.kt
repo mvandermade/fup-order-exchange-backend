@@ -19,6 +19,16 @@ class OrdersV1Controller(
     private val orderService: OrderService,
     private val orderMapper: OrderMapper,
 ) {
+    @GetMapping("/{orderId}")
+    fun getOrder(
+        @PathVariable("orderId") orderId: Long,
+    ): ResponseEntity<OrderV1Response> {
+        val orderDTO = orderService.attemptStampCollection(orderId)
+        return ResponseEntity.ok(
+            orderMapper.toResponse(orderDTO),
+        )
+    }
+
     @PostMapping
     fun postOrder() =
         ResponseEntity.accepted().body(
@@ -36,16 +46,6 @@ class OrdersV1Controller(
             orderMapper.toResponse(
                 orderService.putOrder(orderId, orderRequest),
             ),
-        )
-    }
-
-    @GetMapping("/{orderId}")
-    fun getOrder(
-        @PathVariable("orderId") orderId: Long,
-    ): ResponseEntity<OrderV1Response> {
-        val orderDTO = orderService.attemptStampCollection(orderId)
-        return ResponseEntity.ok(
-            orderMapper.toResponse(orderDTO),
         )
     }
 }

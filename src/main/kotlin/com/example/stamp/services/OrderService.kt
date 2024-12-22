@@ -1,7 +1,7 @@
 package com.example.stamp.services
 
 import com.example.stamp.controllers.requests.OrderV1Request
-import com.example.stamp.datatransferobjects.OrderDTO
+import com.example.stamp.dtos.OrderDTO
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.exceptions.OrderConfirmedV1Exception
 import com.example.stamp.exceptions.OrderNotConfirmedV1Exception
