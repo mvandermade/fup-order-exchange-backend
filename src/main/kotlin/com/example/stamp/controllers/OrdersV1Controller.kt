@@ -5,6 +5,7 @@ import com.example.stamp.controllers.responses.OrderV1Response
 import com.example.stamp.mappers.OrderMapper
 import com.example.stamp.services.OrderService
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -35,6 +36,16 @@ class OrdersV1Controller(
             orderMapper.toResponse(
                 orderService.putOrder(orderId, orderRequest),
             ),
+        )
+    }
+
+    @GetMapping("/{orderId}")
+    fun getOrder(
+        @PathVariable("orderId") orderId: Long,
+    ): ResponseEntity<OrderV1Response> {
+        val orderDTO = orderService.attemptStampCollection(orderId)
+        return ResponseEntity.ok(
+            orderMapper.toResponse(orderDTO),
         )
     }
 }

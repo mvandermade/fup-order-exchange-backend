@@ -5,11 +5,9 @@ import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
 import com.example.stamp.exceptions.OrderNotConfirmedV1Exception
-import com.example.stamp.mappers.StampMapper
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
-import io.mockk.mockk
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -17,21 +15,12 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 
 @SpringBootTestWithCleanup
-class StampServiceTest(
-    @Autowired private val orderRepository: OrderRepository,
-    @Autowired private val stampRepository: StampRepository,
-    @Autowired private val orderStampRepository: OrderStampRepository,
-    @Autowired private val stampMapper: StampMapper,
+class OrderServiceTest(
+    @Autowired val orderService: OrderService,
+    @Autowired val orderRepository: OrderRepository,
+    @Autowired val stampRepository: StampRepository,
+    @Autowired val orderStampRepository: OrderStampRepository,
 ) {
-    private val orderStampService = mockk<OrderStampService>()
-
-    private val stampService =
-        StampService(
-            orderRepository = orderRepository,
-            orderStampService = orderStampService,
-            stampMapper = stampMapper,
-        )
-
     @Test
     fun `Cannot collect because order is not confirmed`() {
         val orderEntity =
@@ -41,7 +30,7 @@ class StampServiceTest(
                 },
             )
 
-        assertThrows<OrderNotConfirmedV1Exception> { stampService.attemptStampCollection(orderEntity.id) }
+        assertThrows<OrderNotConfirmedV1Exception> { orderService.attemptStampCollection(orderEntity.id) }
     }
 
     @Test
@@ -62,8 +51,8 @@ class StampServiceTest(
             OrderStampEntity(orderEntity, stampEntity),
         )
 
-        val collectedStamp = stampService.attemptStampCollection(orderEntity.id)
+        val collectedOrder = orderService.attemptStampCollection(orderEntity.id)
 
-        assertThat(collectedStamp.code).isEqualTo("ABCD")
+        assertThat(collectedOrder.stamp?.code).isEqualTo("ABCD")
     }
 }

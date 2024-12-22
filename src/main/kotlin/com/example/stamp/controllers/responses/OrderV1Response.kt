@@ -1,3 +1,5 @@
 package com.example.stamp.controllers.responses
 
-data class OrderV1Response(val orderId: Long, val orderIsConfirmed: Boolean)
+import com.example.stamp.datatransferobjects.StampDTO
+
+data class OrderV1Response(val id: Long, val orderIsConfirmed: Boolean, val stamp: StampDTO? = null)

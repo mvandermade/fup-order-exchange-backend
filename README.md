@@ -19,6 +19,8 @@ See if anything breaks using tests
 - You can access the h2 console http://localhost:8080/h2-console, user=user password=admin
 - You can access the swagger ui at http://localhost:8080/swagger-ui/index.html
 
+## Programming choices
+- Chose to work with DTO instead of entity passing between services to prevent entitygraph misses.
 
 Use in application.properties to persits a file which you can link to in most editors
 ```
@@ -29,6 +31,7 @@ spring.datasource.url=jdbc:h2:file:~/test
 The annotation dirties context is in place to ensure a clean database each run.
 This might be possible to solve when tests clean up after themselves.
 I tried using @Transaction on the test class but this gave odd results between test fun's.
+-> Use SpringBootTestWithCleanup
 
 ## Databases
 Using create-drop in application.properties the tables are automatically generated, in the tests these are generated using liquibase.

@@ -4,12 +4,14 @@ import com.example.stamp.datatransferobjects.StampDTO
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
+import com.example.stamp.exceptions.OrderNotFoundV1Exception
 import com.example.stamp.exceptions.WaitingForStampV1Exception
 import com.example.stamp.mappers.StampMapper
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
 import org.slf4j.LoggerFactory
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -21,8 +23,12 @@ class OrderStampService(
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    fun attachStampsToOrder(orderEntity: OrderEntity): StampDTO {
+    fun attachStampsToOrderId(orderId: Long): StampDTO {
+        val orderEntity =
+            orderRepository.findByIdOrNull(orderId)
+                ?: throw OrderNotFoundV1Exception(orderId)
         logger.info("Attach stamp to order: ${orderEntity.id}")
+
         val stamp = stampRepository.findFirstByOrderStampEntityIsNull()
 
         if (stamp == null) {
@@ -39,7 +45,7 @@ class OrderStampService(
         val order =
             orderRepository.getReferenceFirstByOrderIsConfirmedIsTrueAndOrderStampEntityIsNullOrderByCreatedAtAsc()
                 ?: return
-        attachStampsToOrder(order)
+        attachStampsToOrderId(order.id)
     }
 
     fun attemptToLink(
