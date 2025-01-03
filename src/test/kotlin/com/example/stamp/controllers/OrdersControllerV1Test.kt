@@ -74,7 +74,7 @@ class OrdersControllerV1Test(
         }
 
         @Test
-        fun `Expect exception`() {
+        fun `Expect exception not found`() {
             val orderRequest = OrderV1Request(orderIsConfirmed = true)
 
             val result =
@@ -96,6 +96,65 @@ class OrdersControllerV1Test(
                 result.response.contentAsString,
                 true,
             )
+        }
+
+        @Nested
+        inner class PutOrder {
+            @Test
+            fun `Put order in database and be able to confirm it`() {
+                val orderEntity =
+                    orderRepository.save(
+                        minRandom<OrderEntity>().apply {
+                            orderIsConfirmed = false
+                        },
+                    )
+
+                val orderRequest = OrderV1Request(orderIsConfirmed = true)
+
+                mockMvc.perform(
+                    put("$PATH/${orderEntity.id}")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(orderRequest)),
+                ).andExpect(status().isOk)
+
+                val orderInDB =
+                    orderRepository.findByIdOrNull(orderEntity.id)
+                        ?: throw NullPointerException("order ${orderEntity.id} not found")
+
+                assertThat(orderInDB.orderIsConfirmed).isTrue()
+            }
+
+            @Test
+            fun `Expect exception already reported`() {
+                val orderEntity =
+                    orderRepository.save(
+                        minRandom<OrderEntity>().apply {
+                            orderIsConfirmed = true
+                        },
+                    )
+
+                val orderRequest = OrderV1Request(orderIsConfirmed = true)
+
+                val result =
+                    mockMvc.perform(
+                        put("$PATH/${orderEntity.id}")
+                            .contentType("application/json")
+                            .content(objectMapper.writeValueAsString(orderRequest)),
+                    ).andExpect(status().is4xxClientError).andReturn()
+
+                JSONAssert.assertEquals(
+                    """
+                    {
+                        "httpStatus": 406,
+                        "message": "Order is confirmed, no modifications possible anymore.",
+                        "origin": "orderId",
+                        "originId": "${orderEntity.id}"
+                    }
+                    """.trimIndent(),
+                    result.response.contentAsString,
+                    true,
+                )
+            }
         }
     }
 

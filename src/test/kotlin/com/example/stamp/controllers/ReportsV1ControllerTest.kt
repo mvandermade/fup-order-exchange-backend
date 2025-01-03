@@ -1,18 +1,24 @@
 package com.example.stamp.controllers
 
 import com.example.stamp.annotations.SpringBootTestWithCleanup
+import com.example.stamp.controllers.requests.StampCodeReportPutV1Request
 import com.example.stamp.controllers.requests.StampCodeReportV1Request
 import com.example.stamp.controllers.responses.StampCodeReportV1Response
+import com.example.stamp.entities.StampReportEntity
 import com.example.stamp.repositories.StampReportRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.OffsetDateTime
 
@@ -50,6 +56,90 @@ class ReportsV1ControllerTest(
 
         assertThat(response.id).isEqualTo(reportInDB.id)
         assertThat(response.reportIsConfirmed).isFalse()
+    }
+
+    @Nested
+    inner class PutStampCode {
+        @Test
+        fun `Put order in database and be able to confirm it`() {
+            val reportEntity =
+                stampReportRepository.save(
+                    minRandom<StampReportEntity>().apply {
+                        reportIsConfirmed = false
+                    },
+                )
+
+            val orderRequest = StampCodeReportPutV1Request(reportIsConfirmed = true)
+
+            mockMvc.perform(
+                put("$PATH/stamp-code/${reportEntity.id}")
+                    .contentType("application/json")
+                    .content(objectMapper.writeValueAsString(orderRequest)),
+            ).andExpect(status().isOk)
+
+            val reportInDb =
+                stampReportRepository.findByIdOrNull(reportEntity.id)
+                    ?: throw NullPointerException("report ${reportEntity.id} not found")
+
+            assertThat(reportInDb.reportIsConfirmed).isTrue()
+        }
+
+        @Test
+        fun `Expect exception not found`() {
+            val reportRequest = StampCodeReportPutV1Request(reportIsConfirmed = true)
+
+            val result =
+                mockMvc.perform(
+                    put("$PATH/stamp-code/0")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(reportRequest)),
+                ).andExpect(status().is4xxClientError).andReturn()
+
+            JSONAssert.assertEquals(
+                """
+                {
+                    "httpStatus": 404,
+                    "message": "Stamp code report not found",
+                    "origin": "reportId",
+                    "originId": "0"
+                }
+                """.trimIndent(),
+                result.response.contentAsString,
+                true,
+            )
+        }
+
+        @Test
+        fun `Expect exception already confirmed`() {
+            val reportEntity =
+                stampReportRepository.save(
+                    minRandom<StampReportEntity>().apply {
+                        reportIsConfirmed = true
+                    },
+                )
+
+            val reportRequest = StampCodeReportPutV1Request(reportIsConfirmed = true)
+
+            val result =
+                mockMvc.perform(
+                    put("$PATH/stamp-code/${reportEntity.id}")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(reportRequest)),
+                ).andExpect(status().is4xxClientError).andReturn()
+
+            JSONAssert.assertEquals(
+                """
+                {
+                    "httpStatus": 406,
+                    "message": "Stamp report is confirmed, no modifications possible anymore.",
+                    "origin": "reportId",
+                    "originId": "${reportEntity.id}"
+                }
+                """.trimIndent(),
+                result.response.contentAsString,
+                true,
+            )
+        }
     }
 
     companion object {
