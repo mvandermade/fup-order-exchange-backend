@@ -7,6 +7,7 @@ import com.example.stamp.entities.StampReportEntity
 import com.example.stamp.exceptions.StampCodeReportNotFoundV1Exception
 import com.example.stamp.exceptions.StampReportConfirmedV1Exception
 import com.example.stamp.mappers.ReportMapper
+import com.example.stamp.providers.TimeProvider
 import com.example.stamp.repositories.StampReportRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service
 class ReportService(
     private val stampReportRepository: StampReportRepository,
     private val reportMapper: ReportMapper,
+    private val timeProvider: TimeProvider,
 ) {
     fun saveStampCodeReport(stampCodeV1Request: StampCodeReportV1Request): StampCodeReportDTO {
         val stampReportEntity =
@@ -42,6 +44,7 @@ class ReportService(
 
         // Update
         entity.reportIsConfirmed = reportRequest.reportIsConfirmed
+        entity.reportIsConfirmedAt = timeProvider.offsetDateTime()
 
         val updated = stampReportRepository.save(entity)
         return reportMapper.toDTO(updated)

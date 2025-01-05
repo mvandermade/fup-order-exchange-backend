@@ -23,6 +23,9 @@ class StampReportEntity(
     var createdAtObserver: OffsetDateTime? = null,
     var reachedDestination: Boolean? = null,
     var comment: String? = null,
+    var reportIsConfirmedAt: OffsetDateTime? = null,
+    var deletionIsDone: Boolean = false,
+    var comparisonIsError: Boolean = false,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
