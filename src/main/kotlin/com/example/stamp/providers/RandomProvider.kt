@@ -9,7 +9,7 @@ class RandomProvider {
     fun randomString(length: Int): String {
         val randomString =
             (1..length)
-                .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+                .map { _ -> kotlin.random.Random.nextInt(0, charPool.size) }
                 .map(charPool::get)
                 .joinToString("")
 
