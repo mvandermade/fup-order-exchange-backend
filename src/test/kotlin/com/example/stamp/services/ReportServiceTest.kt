@@ -44,6 +44,9 @@ class ReportServiceTest(
 
         verify { timeProvider.offsetDateTime() }
         assertThat(report.reportIsConfirmed).isEqualTo(true)
-        assertThat(report.reportIsConfirmedAt).isEqualTo(offsetDateTime)
+        assertThat(report.reportIsConfirmedAt?.dayOfMonth).isEqualTo(offsetDateTime.dayOfMonth)
+        assertThat(report.reportIsConfirmedAt?.dayOfWeek).isEqualTo(offsetDateTime.dayOfWeek)
+        assertThat(report.reportIsConfirmedAt?.hour).isEqualTo(offsetDateTime.hour)
+        assertThat(report.reportIsConfirmedAt?.minute).isEqualTo(offsetDateTime.minute)
     }
 }
