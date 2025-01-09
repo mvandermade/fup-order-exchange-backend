@@ -7,4 +7,5 @@ class StampNotFoundV1Exception(origin: Long) : ResponseV1Exception(
     HttpStatus.NOT_FOUND,
     "orderId",
     origin.toString(),
+    ErrorCode.STAMP_NOT_FOUND,
 )

@@ -90,7 +90,9 @@ class OrdersControllerV1Test(
                     "httpStatus": 404,
                     "message": "Order not found",
                     "origin": "orderId",
-                    "originId": "0"
+                    "originId": "0",
+                    "errorCode": "ORDER_NOT_FOUND",
+                    "service": "made-fp"
                 }
                 """.trimIndent(),
                 result.response.contentAsString,
@@ -148,7 +150,9 @@ class OrdersControllerV1Test(
                         "httpStatus": 406,
                         "message": "Order is confirmed, no modifications possible anymore.",
                         "origin": "orderId",
-                        "originId": "${orderEntity.id}"
+                        "originId": "${orderEntity.id}",
+                        "errorCode": "ORDER_IS_CONFIRMED",
+                        "service": "made-fp"
                     }
                     """.trimIndent(),
                     result.response.contentAsString,
@@ -190,7 +194,9 @@ class OrdersControllerV1Test(
                     "httpStatus": 404,
                     "message": "Order not found",
                     "origin": "orderId",
-                    "originId": "0"
+                    "originId": "0",
+                    "errorCode": "ORDER_NOT_FOUND",
+                    "service": "made-fp"
                 }
                 """.trimIndent(),
                 result.response.contentAsString,

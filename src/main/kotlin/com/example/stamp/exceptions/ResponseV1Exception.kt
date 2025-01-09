@@ -7,4 +7,5 @@ open class ResponseV1Exception(
     val httpStatus: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
     val origin: String = "",
     val originId: String = "",
+    val errorCode: ErrorCode,
 ) : Throwable()

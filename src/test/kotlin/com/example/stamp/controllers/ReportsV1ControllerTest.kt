@@ -101,7 +101,9 @@ class ReportsV1ControllerTest(
                     "httpStatus": 404,
                     "message": "Stamp code report not found",
                     "origin": "reportId",
-                    "originId": "0"
+                    "originId": "0",
+                    "errorCode": "STAMP_CODE_REPORT_NOT_FOUND",
+                    "service": "made-fp"
                 }
                 """.trimIndent(),
                 result.response.contentAsString,
@@ -133,7 +135,9 @@ class ReportsV1ControllerTest(
                     "httpStatus": 406,
                     "message": "Stamp report is confirmed, no modifications possible anymore.",
                     "origin": "reportId",
-                    "originId": "${reportEntity.id}"
+                    "originId": "${reportEntity.id}",
+                    "errorCode":"STAMP_IS_CONFIRMED",
+                    "service": "made-fp"
                 }
                 """.trimIndent(),
                 result.response.contentAsString,

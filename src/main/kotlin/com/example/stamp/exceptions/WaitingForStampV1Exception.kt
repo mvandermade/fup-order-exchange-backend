@@ -7,4 +7,5 @@ class WaitingForStampV1Exception(origin: Long) : ResponseV1Exception(
     HttpStatus.TOO_EARLY,
     "orderId",
     origin.toString(),
+    ErrorCode.STAMP_COLLECTION_IN_PROGRESS,
 )

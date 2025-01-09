@@ -1,7 +1,7 @@
 package com.example.stamp.mappers
 
-import com.example.stamp.controllers.responses.exceptions.HttpMessageNotReadableExceptionResponse
 import com.example.stamp.controllers.responses.exceptions.ResponseExceptionResponse
+import com.example.stamp.exceptions.ErrorCode
 import com.example.stamp.exceptions.ResponseV1Exception
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.HttpStatus
@@ -19,17 +19,19 @@ class ExceptionMapper(
                 message = e.message,
                 origin = e.origin,
                 originId = e.originId,
+                errorCode = e.errorCode,
             ),
         )
     }
 
     fun toResponseBody(e: HttpMessageNotReadableException): String {
         return objectMapper.writeValueAsString(
-            HttpMessageNotReadableExceptionResponse(
+            ResponseExceptionResponse(
                 httpStatus = HttpStatus.BAD_REQUEST.value(),
                 message = "Missing value",
                 origin = "",
                 originId = "",
+                errorCode = ErrorCode.MISSING_VALUE,
             ),
         )
     }
@@ -41,6 +43,7 @@ class ExceptionMapper(
                 "Something went wrong",
                 "Unknown",
                 "Unknown",
+                ErrorCode.UNKNOWN_ERROR,
             ),
         )
     }

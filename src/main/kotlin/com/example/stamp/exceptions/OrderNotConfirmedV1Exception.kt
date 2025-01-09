@@ -7,4 +7,5 @@ class OrderNotConfirmedV1Exception(origin: Long) : ResponseV1Exception(
     HttpStatus.NOT_ACCEPTABLE,
     "orderId",
     origin.toString(),
+    ErrorCode.ORDER_NOT_CONFIRMED,
 )

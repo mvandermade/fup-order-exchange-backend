@@ -7,4 +7,5 @@ class StampReportConfirmedV1Exception(origin: Long) : ResponseV1Exception(
     HttpStatus.NOT_ACCEPTABLE,
     "reportId",
     origin.toString(),
+    ErrorCode.STAMP_IS_CONFIRMED,
 )

@@ -1,0 +1,13 @@
+package com.example.stamp.exceptions
+
+enum class ErrorCode {
+    ORDER_IS_CONFIRMED,
+    STAMP_CODE_REPORT_NOT_FOUND,
+    STAMP_NOT_FOUND,
+    STAMP_IS_CONFIRMED,
+    STAMP_COLLECTION_IN_PROGRESS,
+    ORDER_NOT_CONFIRMED,
+    ORDER_NOT_FOUND,
+    MISSING_VALUE,
+    UNKNOWN_ERROR,
+}

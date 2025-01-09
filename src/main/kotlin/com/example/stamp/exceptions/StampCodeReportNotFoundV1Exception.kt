@@ -7,4 +7,5 @@ class StampCodeReportNotFoundV1Exception(origin: Long) : ResponseV1Exception(
     HttpStatus.NOT_FOUND,
     "reportId",
     origin.toString(),
+    ErrorCode.STAMP_CODE_REPORT_NOT_FOUND,
 )

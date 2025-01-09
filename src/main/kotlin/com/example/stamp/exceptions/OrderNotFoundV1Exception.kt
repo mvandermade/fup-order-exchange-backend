@@ -7,4 +7,5 @@ class OrderNotFoundV1Exception(origin: Long) : ResponseV1Exception(
     HttpStatus.NOT_FOUND,
     "orderId",
     origin.toString(),
+    ErrorCode.ORDER_NOT_FOUND,
 )
