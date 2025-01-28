@@ -33,10 +33,13 @@ This might be possible to solve when tests clean up after themselves.
 I tried using @Transaction on the test class but this gave odd results between test fun's.
 -> Use SpringBootTestWithCleanup
 
-## Databases
-Using create-drop in application.properties the tables are automatically generated, in the tests these are generated using liquibase.
-For upgrades, it is handy to use liquibase because you can do migrations, and you have more control over the database structure.
-In the test files the create-drop is replaced by validate.
-
 # Controlleradvice
 Controlleradvice is disabled for exceptions under the profile `development`. The advices are annotated with @Hidden for Springdoc
+
+# Upgrading
+When using dependabot:
+Use gradle htmlDependencyReport
+Or re-run the dependency submission action in debug mode:
+https://github.com/gradle/actions/blob/main/docs/dependency-submission.md
+
+Or manually update using `dependencyUpdates`
