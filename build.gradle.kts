@@ -5,7 +5,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.52.0"
     id("project-report")
 
-    val kotlinVersion = "1.9.25"
+    val kotlinVersion = "2.0.20"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
