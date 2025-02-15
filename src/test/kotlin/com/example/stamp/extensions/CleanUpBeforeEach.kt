@@ -16,7 +16,6 @@ class CleanUpBeforeEach : BeforeEachCallback {
         val stampRepository = SpringExtension.getApplicationContext(context).getBean(StampRepository::class.java)
 
         // Using deleteAllInBatch here because of errors: org.hibernate.TransientObjectException persistent instance references an unsaved transient instance
-
         // First the FK relations gone...
         stampReportRepository.deleteAllInBatch()
         orderStampRepository.deleteAllInBatch()

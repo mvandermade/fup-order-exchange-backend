@@ -28,16 +28,13 @@ spring.datasource.url=jdbc:h2:file:~/test
 ```
 
 ## Testing
-The annotation dirties context is in place to ensure a clean database each run.
-This might be possible to solve when tests clean up after themselves.
-I tried using @Transaction on the test class but this gave odd results between test fun's.
--> Use SpringBootTestWithCleanup
+-> Use SpringBootTestWithCleanup annotation to keep tests speedy.
 
 # Controlleradvice
 Controlleradvice is disabled for exceptions under the profile `development`. The advices are annotated with @Hidden for Springdoc
 
-# Upgrading
-When using dependabot:
+# Upgrading dependencies
+## Dependabot
 Use gradle htmlDependencyReport
 Or re-run the dependency submission action in debug mode:
 https://github.com/gradle/actions/blob/main/docs/dependency-submission.md
