@@ -40,3 +40,6 @@ Or re-run the dependency submission action in debug mode:
 https://github.com/gradle/actions/blob/main/docs/dependency-submission.md
 
 Or manually update using `dependencyUpdates`
+
+# Packaging
+You can use bootBuildImage to build a Docker image, but I did not figure out yet how to incorporate it into Github actions.
