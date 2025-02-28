@@ -18,6 +18,7 @@ See if anything breaks using tests
 ## Tips
 - You can access the h2 console http://localhost:8080/h2-console, user=user password=admin
 - You can access the swagger ui at http://localhost:8080/swagger-ui/index.html
+- You can switch to the spring development profile to activate persistent settings
 
 ## Programming choices
 - Chose to work with DTO instead of entity passing between services to prevent entitygraph misses.
