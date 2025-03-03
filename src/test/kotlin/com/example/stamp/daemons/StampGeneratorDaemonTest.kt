@@ -1,6 +1,5 @@
 package com.example.stamp.daemons
 
-import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.providers.RandomProvider
 import com.example.stamp.repositories.StampRepository
 import com.ninjasquad.springmockk.MockkBean
@@ -9,10 +8,16 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.doReturn
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 
-@SpringBootTestWithCleanup
+@SpringBootTest
+@Testcontainers
 class StampGeneratorDaemonTest(
     @Autowired private val stampGeneratorDaemon: StampGeneratorDaemon,
 ) {
@@ -46,5 +51,11 @@ class StampGeneratorDaemonTest(
         assertThrows<DataIntegrityViolationException> {
             stampGeneratorDaemon.persistRandomStamp()
         }
+    }
+
+    companion object {
+        @Container
+        @ServiceConnection
+        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
     }
 }

@@ -1,26 +1,41 @@
 package com.example.stamp.services
 
-import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.entities.StampEntity
 import com.example.stamp.repositories.OrderRepository
+import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.system.CapturedOutput
 import org.springframework.boot.test.system.OutputCaptureExtension
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.dao.DataIntegrityViolationException
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 
-@SpringBootTestWithCleanup
+@SpringBootTest
+@Testcontainers
 @ExtendWith(OutputCaptureExtension::class)
 class OrderStampDTOEntityServiceTest(
     @Autowired private val orderStampService: OrderStampService,
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampRepository: StampRepository,
+    @Autowired private val orderStampRepository: OrderStampRepository,
 ) {
+    @BeforeEach
+    fun setUp() {
+        orderStampRepository.deleteAll()
+        orderRepository.deleteAll()
+        stampRepository.deleteAll()
+    }
+
     @Test
     fun `Link results in logging`(output: CapturedOutput) {
         val order1 = orderRepository.save(minRandom())
@@ -56,5 +71,11 @@ class OrderStampDTOEntityServiceTest(
         assertThrows<DataIntegrityViolationException> {
             orderStampService.attemptToLink(order2, stampEntity1)
         }
+    }
+
+    companion object {
+        @Container
+        @ServiceConnection
+        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
     }
 }

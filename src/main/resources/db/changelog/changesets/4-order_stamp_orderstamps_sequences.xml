@@ -5,16 +5,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="4" author="mvandermade">
-        <preConditions>
-            <dbms type="h2"/>
-        </preConditions>
-
         <createSequence sequenceName="orders_seq"
                          cycle="false"
                          dataType="bigint"
                          incrementBy="50"
                          maxValue="9223372036854775807"
-                         ordered="true"
                          startValue="1"
         />
         <createSequence sequenceName="stamps_seq"
@@ -22,7 +17,6 @@
                         dataType="bigint"
                         incrementBy="50"
                         maxValue="9223372036854775807"
-                        ordered="true"
                         startValue="1"
         />
         <createSequence sequenceName="order_stamps_seq"
@@ -30,7 +24,6 @@
                         dataType="bigint"
                         incrementBy="50"
                         maxValue="9223372036854775807"
-                        ordered="true"
                         startValue="1"
         />
     </changeSet>

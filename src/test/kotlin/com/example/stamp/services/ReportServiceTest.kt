@@ -1,6 +1,5 @@
 package com.example.stamp.services
 
-import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.controllers.requests.StampCodeReportPutV1Request
 import com.example.stamp.entities.StampReportEntity
 import com.example.stamp.providers.TimeProvider
@@ -12,10 +11,16 @@ import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.data.repository.findByIdOrNull
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.OffsetDateTime
 
-@SpringBootTestWithCleanup
+@SpringBootTest
+@Testcontainers
 class ReportServiceTest(
     @Autowired private val reportService: ReportService,
     @Autowired private val stampReportRepository: StampReportRepository,
@@ -44,9 +49,12 @@ class ReportServiceTest(
 
         verify { timeProvider.offsetDateTime() }
         assertThat(report.reportIsConfirmed).isEqualTo(true)
-        assertThat(report.reportIsConfirmedAt?.dayOfMonth).isEqualTo(offsetDateTime.dayOfMonth)
-        assertThat(report.reportIsConfirmedAt?.dayOfWeek).isEqualTo(offsetDateTime.dayOfWeek)
-        assertThat(report.reportIsConfirmedAt?.hour).isEqualTo(offsetDateTime.hour)
-        assertThat(report.reportIsConfirmedAt?.minute).isEqualTo(offsetDateTime.minute)
+        assertThat(report.reportIsConfirmedAt).isEqualTo(offsetDateTime)
+    }
+
+    companion object {
+        @Container
+        @ServiceConnection
+        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
     }
 }

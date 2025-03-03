@@ -4,23 +4,20 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <property name="type.boolean" value="BOOLEAN" dbms="h2"/>
-    <property name="type.boolean" value="BIT(1)" dbms="mysql"/>
-
     <changeSet id="5" author="mvandermade">
         <createTable tableName="stamp_reports">
             <column name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
             <column name="code" type="VARCHAR(255)"/>
-            <column name="report_is_confirmed" type="${type.boolean}"/>
+            <column name="report_is_confirmed" type="boolean"/>
             <column name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="created_at_observer" type="TIMESTAMP WITH TIME ZONE"/>
-            <column name="reached_destination" type="${type.boolean}"/>
+            <column name="reached_destination" type="boolean"/>
             <column name="comment" type="VARCHAR(1000)"/>
             <column name="report_is_confirmed_at" type="TIMESTAMP WITH TIME ZONE"/>
-            <column name="deletion_is_done" type="${type.boolean}"/>
-            <column name="comparison_is_error" type="${type.boolean}"/>
+            <column name="deletion_is_done" type="boolean"/>
+            <column name="comparison_is_error" type="boolean"/>
         </createTable>
     </changeSet>
 

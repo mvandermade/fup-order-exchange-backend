@@ -1,6 +1,5 @@
 package com.example.stamp.daemons
 
-import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
 import com.example.stamp.entities.StampReportEntity
@@ -10,12 +9,19 @@ import com.example.stamp.repositories.StampReportRepository
 import com.example.stamp.repositories.StampRepository
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.data.repository.findByIdOrNull
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.OffsetDateTime
 
-@SpringBootTestWithCleanup
+@SpringBootTest
+@Testcontainers
 class StampReportDaemonTest(
     @Autowired private val stampReportDaemon: StampReportDaemon,
     @Autowired private val stampRepository: StampRepository,
@@ -23,6 +29,17 @@ class StampReportDaemonTest(
     @Autowired private val orderRepository: OrderRepository,
     @Autowired private val stampReportRepository: StampReportRepository,
 ) {
+    @BeforeEach
+    fun setUp() {
+        // First the FK relations gone...
+        stampReportRepository.deleteAll()
+        orderStampRepository.deleteAll()
+
+        // Then the entities:
+        orderRepository.deleteAll()
+        stampRepository.deleteAll()
+    }
+
     @Test
     fun `Should delete orderStamp in database`() {
         val order = orderRepository.save(minRandom())
@@ -201,5 +218,11 @@ class StampReportDaemonTest(
         assertThat(
             orderStampRepository.findByIdOrNull(orderStamp2.id),
         ).isNull()
+    }
+
+    companion object {
+        @Container
+        @ServiceConnection
+        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
     }
 }

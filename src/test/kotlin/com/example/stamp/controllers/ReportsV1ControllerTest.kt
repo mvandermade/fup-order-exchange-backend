@@ -1,6 +1,5 @@
 package com.example.stamp.controllers
 
-import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.controllers.requests.StampCodeReportPutV1Request
 import com.example.stamp.controllers.requests.StampCodeReportV1Request
 import com.example.stamp.controllers.responses.StampCodeReportV1Response
@@ -15,14 +14,20 @@ import org.junit.jupiter.api.Test
 import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.OffsetDateTime
 
-@SpringBootTestWithCleanup
+@SpringBootTest
+@Testcontainers
 @AutoConfigureMockMvc
 class ReportsV1ControllerTest(
     @Autowired private val mockMvc: MockMvc,
@@ -148,5 +153,9 @@ class ReportsV1ControllerTest(
 
     companion object {
         const val PATH = "/v1/reports"
+
+        @Container
+        @ServiceConnection
+        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
     }
 }

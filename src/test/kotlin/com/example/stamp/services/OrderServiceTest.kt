@@ -1,6 +1,5 @@
 package com.example.stamp.services
 
-import com.example.stamp.annotations.SpringBootTestWithCleanup
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
@@ -13,8 +12,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 
-@SpringBootTestWithCleanup
+@SpringBootTest
+@Testcontainers
 class OrderServiceTest(
     @Autowired val orderService: OrderService,
     @Autowired val orderRepository: OrderRepository,
@@ -54,5 +59,11 @@ class OrderServiceTest(
         val collectedOrder = orderService.attemptStampCollection(orderEntity.id)
 
         assertThat(collectedOrder.stamp?.code).isEqualTo("ABCD")
+    }
+
+    companion object {
+        @Container
+        @ServiceConnection
+        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
     }
 }
