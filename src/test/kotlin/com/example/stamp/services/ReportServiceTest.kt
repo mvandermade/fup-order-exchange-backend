@@ -47,7 +47,7 @@ class ReportServiceTest(
             stampReportRepository.findByIdOrNull(entity.id)
                 ?: throw NullPointerException("Report with id ${entity.id} not found")
 
-        verify { timeProvider.offsetDateTime() }
+        verify(exactly = 1) { timeProvider.offsetDateTime() }
         assertThat(report.reportIsConfirmed).isTrue()
         println("Mock: $offsetDateTime")
         println("Report: ${report.reportIsConfirmedAt}")
