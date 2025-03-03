@@ -5,6 +5,7 @@ import com.example.stamp.controllers.requests.StampCodeReportV1Request
 import com.example.stamp.controllers.responses.StampCodeReportV1Response
 import com.example.stamp.entities.StampReportEntity
 import com.example.stamp.repositories.StampReportRepository
+import com.example.stamp.testutils.buildPostgresContainer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import nl.wykorijnsburger.kminrandom.minRandom
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.OffsetDateTime
@@ -156,6 +156,6 @@ class ReportsV1ControllerTest(
 
         @Container
         @ServiceConnection
-        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
+        val postgresContainer = buildPostgresContainer()
     }
 }

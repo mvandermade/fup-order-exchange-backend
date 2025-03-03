@@ -4,6 +4,7 @@ import com.example.stamp.controllers.requests.StampCodeReportPutV1Request
 import com.example.stamp.entities.StampReportEntity
 import com.example.stamp.providers.TimeProvider
 import com.example.stamp.repositories.StampReportRepository
+import com.example.stamp.testutils.buildPostgresContainer
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.data.repository.findByIdOrNull
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.OffsetDateTime
@@ -55,6 +55,6 @@ class ReportServiceTest(
     companion object {
         @Container
         @ServiceConnection
-        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
+        val postgresContainer = buildPostgresContainer()
     }
 }

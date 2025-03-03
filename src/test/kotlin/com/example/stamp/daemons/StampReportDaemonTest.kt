@@ -7,6 +7,7 @@ import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampReportRepository
 import com.example.stamp.repositories.StampRepository
+import com.example.stamp.testutils.buildPostgresContainer
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.data.repository.findByIdOrNull
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.OffsetDateTime
@@ -223,6 +223,6 @@ class StampReportDaemonTest(
     companion object {
         @Container
         @ServiceConnection
-        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
+        val postgresContainer = buildPostgresContainer()
     }
 }

@@ -1,5 +1,6 @@
 package com.example.stamp.repositories
 
+import com.example.stamp.testutils.buildPostgresContainer
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
@@ -30,6 +30,6 @@ class StampRepositoryTest(
     companion object {
         @Container
         @ServiceConnection
-        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
+        val postgresContainer = buildPostgresContainer()
     }
 }

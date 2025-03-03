@@ -1,18 +1,15 @@
 package com.example.stamp.daemons
 
-import com.example.stamp.entities.StampEntity
-import com.example.stamp.providers.RandomProvider
 import com.example.stamp.providers.TransactionProvider
-import com.example.stamp.repositories.StampRepository
+import com.example.stamp.services.StampService
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
 @Component
-class StampGeneratorDaemon(
-    private val stampRepository: StampRepository,
-    private val randomProvider: RandomProvider,
+class StampGenerator(
     private val transactionProvider: TransactionProvider,
+    private val stampService: StampService,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -20,7 +17,7 @@ class StampGeneratorDaemon(
     fun insertCodes() {
         try {
             transactionProvider.newReadWrite {
-                persistRandomStamp()
+                stampService.persistRandomStamp()
             }
         } catch (e: Exception) {
             if (e.message?.contains("Unique index or primary key violation:") == true) {
@@ -29,18 +26,5 @@ class StampGeneratorDaemon(
                 e.printStackTrace()
             }
         }
-    }
-
-    fun persistRandomStamp() {
-        val code = randomProvider.randomString(1)
-
-        // Prevent unneeded attempts cluttering the logs
-        if (stampRepository.findByCode(code) != null) return
-
-        val entity =
-            StampEntity(
-                code = code,
-            )
-        stampRepository.save(entity)
     }
 }

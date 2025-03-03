@@ -5,11 +5,14 @@ import com.example.stamp.controllers.responses.OrderV1Response
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.StampEntity
 import com.example.stamp.repositories.OrderRepository
+import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
+import com.example.stamp.testutils.buildPostgresContainer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.skyscreamer.jsonassert.JSONAssert
@@ -23,7 +26,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
@@ -35,7 +37,15 @@ class OrdersControllerV1Test(
     @Autowired private val objectMapper: ObjectMapper,
     @Autowired private val mockMvc: MockMvc,
     @Autowired private val stampRepository: StampRepository,
+    @Autowired private val orderStampRepository: OrderStampRepository,
 ) {
+    @BeforeEach
+    fun setUp() {
+        orderStampRepository.deleteAll()
+        stampRepository.deleteAll()
+        orderRepository.deleteAll()
+    }
+
     @Test
     fun `POST should persist order in database but not confirm it`() {
         val response =
@@ -215,6 +225,6 @@ class OrdersControllerV1Test(
 
         @Container
         @ServiceConnection
-        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17")
+        val postgresContainer = buildPostgresContainer()
     }
 }
