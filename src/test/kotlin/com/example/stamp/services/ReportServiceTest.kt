@@ -48,7 +48,9 @@ class ReportServiceTest(
                 ?: throw NullPointerException("Report with id ${entity.id} not found")
 
         verify { timeProvider.offsetDateTime() }
-        assertThat(report.reportIsConfirmed).isEqualTo(true)
+        assertThat(report.reportIsConfirmed).isTrue()
+        println("Mock: $offsetDateTime")
+        println("Report: ${report.reportIsConfirmedAt}")
         assertThat(report.reportIsConfirmedAt).isEqualTo(offsetDateTime)
     }
 
