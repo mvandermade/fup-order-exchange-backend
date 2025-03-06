@@ -18,6 +18,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.OffsetDateTime
+import java.time.temporal.ChronoUnit
 
 @SpringBootTest
 @Testcontainers
@@ -37,7 +38,8 @@ class ReportServiceTest(
                 },
             )
 
-        val offsetDateTime = OffsetDateTime.now()
+        // The GHA server has a higher precision than the database can save so truncate it
+        val offsetDateTime = OffsetDateTime.now().truncatedTo(ChronoUnit.NANOS)
 
         every { timeProvider.offsetDateTime() } returns offsetDateTime
 
@@ -49,8 +51,7 @@ class ReportServiceTest(
 
         verify(exactly = 1) { timeProvider.offsetDateTime() }
         assertThat(report.reportIsConfirmed).isTrue()
-        println("Mock: $offsetDateTime")
-        println("Report: ${report.reportIsConfirmedAt}")
+
         assertThat(report.reportIsConfirmedAt).isEqualTo(offsetDateTime)
     }
 
