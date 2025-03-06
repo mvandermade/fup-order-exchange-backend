@@ -33,6 +33,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("org.liquibase:liquibase-core")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     testImplementation("org.testcontainers:junit-jupiter:1.20.5")
     testImplementation("org.testcontainers:postgresql:1.20.5")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
