@@ -39,7 +39,7 @@ class ReportServiceTest(
             )
 
         // The GHA server has a higher precision than the database can save so truncate it
-        val offsetDateTime = OffsetDateTime.now().truncatedTo(ChronoUnit.NANOS)
+        val offsetDateTime = OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS)
 
         every { timeProvider.offsetDateTime() } returns offsetDateTime
 
