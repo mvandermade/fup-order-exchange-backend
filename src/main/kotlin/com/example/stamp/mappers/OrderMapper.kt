@@ -13,7 +13,6 @@ class OrderMapper(
     fun toResponse(orderDTO: OrderDTO): OrderV1Response {
         return OrderV1Response(
             id = orderDTO.id,
-            orderIsConfirmed = orderDTO.orderIsConfirmed,
             stamp = orderDTO.stamp,
         )
     }
@@ -25,7 +24,6 @@ class OrderMapper(
         return OrderDTO(
             orderEntity.id,
             orderEntity.createdAt,
-            orderEntity.orderIsConfirmed,
             stamp = stampEntity?.let { stampMapper.toDTO(it) },
         )
     }

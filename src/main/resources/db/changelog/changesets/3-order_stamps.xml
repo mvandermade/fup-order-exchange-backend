@@ -34,6 +34,14 @@
                 referencedTableName="stamps"
         />
 
+        <createSequence sequenceName="order_stamps_seq"
+                        cycle="false"
+                        dataType="bigint"
+                        incrementBy="50"
+                        maxValue="9223372036854775807"
+                        startValue="1"
+        />
+
     </changeSet>
 
 </databaseChangeLog>

@@ -1,32 +1,36 @@
 package com.example.stamp.entities
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
+import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
-import jakarta.persistence.Temporal
-import jakarta.persistence.TemporalType
-import org.hibernate.annotations.CreationTimestamp
+import jakarta.persistence.Version
 import org.hibernate.proxy.HibernateProxy
-import java.time.OffsetDateTime
 
 @Entity
-@Table(name = "orders")
-class OrderEntity() {
+@Table(name = "order_idempotency_keys")
+class OrderIdempotencyKeyEntity(
+    @Column(name = "user_key", unique = true)
+    var userKey: String,
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @JoinColumn(name = "order_id", nullable = true)
+    var order: OrderEntity,
+) {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_idempotency_keys_gen")
+    @SequenceGenerator(name = "order_idempotency_keys_gen", sequenceName = "order_idempotency_keys_seq")
+    @Column(nullable = false)
     var id: Long = 0
 
-    @OneToOne(mappedBy = "orderEntity")
-    var orderStampEntity: OrderStampEntity? = null
-
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", updatable = false)
-    var createdAt: OffsetDateTime? = null
+    @Version
+    var version: Long? = null
 
     final override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -36,9 +40,9 @@ class OrderEntity() {
         val thisEffectiveClass =
             if (this is HibernateProxy) this.hibernateLazyInitializer.persistentClass else this.javaClass
         if (thisEffectiveClass != oEffectiveClass) return false
-        other as OrderEntity
+        other as OrderIdempotencyKeyEntity
 
-        return id == other.id
+        return id != null && id == other.id
     }
 
     final override fun hashCode(): Int =

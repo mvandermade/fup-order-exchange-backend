@@ -20,7 +20,6 @@ class OrderMapperTest {
         val response = orderMapper.toResponse(orderDTO)
 
         assertThat(response.id).isEqualTo(orderDTO.id)
-        assertThat(response.orderIsConfirmed).isEqualTo(orderDTO.orderIsConfirmed)
     }
 
     @Test

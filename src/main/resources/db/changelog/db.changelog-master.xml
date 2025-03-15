@@ -14,8 +14,7 @@
     <include relativeToChangelogFile="true" file="changesets/1-orders.xml"/>
     <include relativeToChangelogFile="true" file="changesets/2-stamps.xml"/>
     <include relativeToChangelogFile="true" file="changesets/3-order_stamps.xml"/>
-    <include relativeToChangelogFile="true" file="changesets/4-order_stamp_orderstamps_sequences.xml"/>
-    <include relativeToChangelogFile="true" file="changesets/5-stamp-reports.xml"/>
-    <include relativeToChangelogFile="true" file="changesets/6-stamp_reports_sequence.xml"/>
+    <include relativeToChangelogFile="true" file="changesets/4-stamp-reports.xml"/>
+    <include relativeToChangelogFile="true" file="changesets/5-order_idempotency.xml"/>
 
 </databaseChangeLog>

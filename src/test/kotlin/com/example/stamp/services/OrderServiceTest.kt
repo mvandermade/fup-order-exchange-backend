@@ -3,13 +3,17 @@ package com.example.stamp.services
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
-import com.example.stamp.exceptions.OrderNotConfirmedV1Exception
+import com.example.stamp.repositories.OrderIdempotencyKeyRepository
 import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
 import com.example.stamp.testutils.buildPostgresContainer
+import com.ninjasquad.springmockk.SpykBean
+import io.mockk.clearAllMocks
+import io.mockk.every
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,26 +29,41 @@ class OrderServiceTest(
     @Autowired val orderRepository: OrderRepository,
     @Autowired val stampRepository: StampRepository,
     @Autowired val orderStampRepository: OrderStampRepository,
+    @Autowired val orderIdempotencyKeyRepository: OrderIdempotencyKeyRepository,
 ) {
-    @Test
-    fun `Cannot collect because order is not confirmed`() {
-        val orderEntity =
-            orderRepository.save(
-                minRandom<OrderEntity>().apply {
-                    orderIsConfirmed = false
-                },
-            )
+    @SpykBean
+    private lateinit var orderIdempotencyKeyService: OrderIdempotencyKeyService
 
-        assertThrows<OrderNotConfirmedV1Exception> { orderService.attemptStampCollection(orderEntity.id) }
+    @BeforeEach
+    fun setUp() {
+        orderIdempotencyKeyRepository.deleteAll()
+        orderRepository.deleteAll()
+        clearAllMocks()
+    }
+
+    @Test
+    fun `Idempotency key save failure is transactional test`() {
+        every { orderIdempotencyKeyService.saveIdempotencyKey("123", any()) } throws Exception("oops")
+        assertThrows<Exception> {
+            orderService.postOrder(idempotentUserKey = "123")
+        }
+        assertThat(orderRepository.count()).isEqualTo(0)
+    }
+
+    @Test
+    fun `Idempotency key is saved ok`() {
+        val dto = orderService.postOrder(idempotentUserKey = "123")
+
+        val idpEntity = orderIdempotencyKeyRepository.findByUserKey("123")
+
+        assertThat(idpEntity?.order?.id).isEqualTo(dto.id)
     }
 
     @Test
     fun `Can collect stamp code from database`() {
         val orderEntity =
             orderRepository.save(
-                minRandom<OrderEntity>().apply {
-                    orderIsConfirmed = true
-                },
+                minRandom<OrderEntity>(),
             )
         val stampEntity =
             stampRepository.save(
