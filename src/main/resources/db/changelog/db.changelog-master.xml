@@ -16,5 +16,6 @@
     <include relativeToChangelogFile="true" file="changesets/3-order_stamps.xml"/>
     <include relativeToChangelogFile="true" file="changesets/4-stamp-reports.xml"/>
     <include relativeToChangelogFile="true" file="changesets/5-order_idempotency.xml"/>
+    <include relativeToChangelogFile="true" file="changesets/6-stamp-report_idempotency.xml"/>
 
 </databaseChangeLog>

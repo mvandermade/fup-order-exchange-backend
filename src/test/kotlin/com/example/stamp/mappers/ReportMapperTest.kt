@@ -22,7 +22,6 @@ class ReportMapperTest {
             val response = reportMapper.toResponse(stampReportDTO)
 
             assertThat(response.id).isEqualTo(stampReportDTO.id)
-            assertThat(response.reportIsConfirmed).isEqualTo(stampReportDTO.reportIsConfirmed)
         }
 
         @Test
@@ -41,7 +40,6 @@ class ReportMapperTest {
             val stampReportDTO = reportMapper.toDTO(stampReportEntity)
 
             assertThat(stampReportDTO.id).isEqualTo(stampReportEntity.id)
-            assertThat(stampReportDTO.reportIsConfirmed).isEqualTo(stampReportEntity.reportIsConfirmed)
             assertThat(stampReportDTO.createdAtObserver).isEqualTo(observerTime)
             assertThat(stampReportDTO.createdAtServer).isEqualTo(serverTime)
             assertThat(stampReportDTO.comment).isEqualTo(stampReportEntity.comment)

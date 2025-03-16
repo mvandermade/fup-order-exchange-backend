@@ -15,7 +15,6 @@ import java.time.OffsetDateTime
 @Table(name = "stamp_reports")
 class StampReportEntity(
     var code: String,
-    var reportIsConfirmed: Boolean = false,
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)
@@ -23,7 +22,6 @@ class StampReportEntity(
     var createdAtObserver: OffsetDateTime? = null,
     var reachedDestination: Boolean? = null,
     var comment: String? = null,
-    var reportIsConfirmedAt: OffsetDateTime? = null,
     var deletionIsDone: Boolean = false,
     var comparisonIsError: Boolean = false,
 ) {

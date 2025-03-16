@@ -31,7 +31,7 @@ class OrdersV1Controller(
     }
 
     @PostMapping
-    @Description("Use an idempotency key to prevent duplicate ordering")
+    @Description("Use an unique idempotency key to prevent duplicate ordering")
     fun postOrder(
         @RequestHeader(name = "idempotency-key", required = true) idempotencyKeyHeader: String,
     ): ResponseEntity<OrderV1Response> {

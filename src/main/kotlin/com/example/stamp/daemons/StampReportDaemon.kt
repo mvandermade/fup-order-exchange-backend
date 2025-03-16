@@ -18,7 +18,7 @@ class StampReportDaemon(
     @Scheduled(fixedDelay = 1_000, initialDelay = 2_000)
     fun findStampReportsAndDelete() {
         val page = Pageable.ofSize(50)
-        val toDelete = stampReportRepository.findByDeletionIsDoneIsFalseAndReportIsConfirmedIsTrueAndComparisonIsErrorIsFalse(page)
+        val toDelete = stampReportRepository.findByDeletionIsDoneIsFalseAndComparisonIsErrorIsFalse(page)
         if (toDelete.isEmpty) return
 
         toDelete.forEach { stampReport ->
@@ -40,13 +40,13 @@ class StampReportDaemon(
                 return@forEach
             }
 
-            val reportTimeStamp = stampReport.reportIsConfirmedAt
-            if (reportTimeStamp == null) {
+            val createdAtTimeStamp = stampReport.createdAt
+            if (createdAtTimeStamp == null) {
                 stampReportRepository.save(stampReport.apply { comparisonIsError = true })
                 return@forEach
             }
 
-            if (orderStampTimestamp < reportTimeStamp) {
+            if (orderStampTimestamp < createdAtTimeStamp) {
                 stampReport.deletionIsDone = true
                 transactionProvider.newReadWrite {
                     orderStampRepository.delete(orderStampEntity)

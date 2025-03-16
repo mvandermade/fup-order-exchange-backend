@@ -1,15 +1,14 @@
 package com.example.stamp.services
 
-import com.example.stamp.controllers.requests.StampCodeReportPutV1Request
-import com.example.stamp.entities.StampReportEntity
+import com.example.stamp.controllers.requests.StampReportV1Request
 import com.example.stamp.providers.TimeProvider
+import com.example.stamp.repositories.StampReportIdempotencyKeyRepository
 import com.example.stamp.repositories.StampReportRepository
 import com.example.stamp.testutils.buildPostgresContainer
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import io.mockk.verify
-import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -25,34 +24,58 @@ import java.time.temporal.ChronoUnit
 class ReportServiceTest(
     @Autowired private val reportService: ReportService,
     @Autowired private val stampReportRepository: StampReportRepository,
+    @Autowired private val stampReportIdempotencyKeyRepository: StampReportIdempotencyKeyRepository,
 ) {
     @MockkBean
     private lateinit var timeProvider: TimeProvider
 
+    @BeforeEach
+    fun setUp() {
+        stampReportIdempotencyKeyRepository.deleteAll()
+        stampReportRepository.deleteAll()
+    }
+
     @Test
     fun `Correct timestamp is set when creating a report and flipped to true`() {
-        val entity =
-            stampReportRepository.save(
-                minRandom<StampReportEntity>().apply {
-                    reportIsConfirmed = false
-                },
-            )
-
         // The GHA server has a higher precision than the database can save so truncate it
         val offsetDateTime = OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS)
 
         every { timeProvider.offsetDateTime() } returns offsetDateTime
 
-        reportService.putReport(entity.id, StampCodeReportPutV1Request(true))
+        val dto =
+            reportService.postStampReport(
+                StampReportV1Request(
+                    code = "123",
+                    offsetDateTime = offsetDateTime,
+                    reachedDestination = true,
+                    comment = "my comment",
+                ),
+                "abc",
+            )
 
         val report =
-            stampReportRepository.findByIdOrNull(entity.id)
-                ?: throw NullPointerException("Report with id ${entity.id} not found")
+            stampReportRepository.findByIdOrNull(dto.id)
+                ?: throw NullPointerException("Report with id ${dto.id} not found")
 
-        verify(exactly = 1) { timeProvider.offsetDateTime() }
-        assertThat(report.reportIsConfirmed).isTrue()
+        assertThat(report.code).isEqualTo("123")
+        assertThat(report.reachedDestination).isTrue
+        assertThat(report.comment).isEqualTo("my comment")
+        assertThat(report.createdAtObserver).isEqualTo(offsetDateTime)
+    }
 
-        assertThat(report.reportIsConfirmedAt).isEqualTo(offsetDateTime)
+    @Test
+    fun `Idempotency key is saved`() {
+        reportService.postStampReport(
+            StampReportV1Request(
+                code = "123",
+                offsetDateTime = null,
+                reachedDestination = null,
+                comment = null,
+            ),
+            "abc",
+        )
+
+        assertThat(stampReportIdempotencyKeyRepository.findByUserKey("abc")).isNotNull
     }
 
     companion object {

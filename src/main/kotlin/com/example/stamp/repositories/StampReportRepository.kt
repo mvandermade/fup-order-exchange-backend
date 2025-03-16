@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface StampReportRepository : JpaRepository<StampReportEntity, Long> {
-    fun findByDeletionIsDoneIsFalseAndReportIsConfirmedIsTrueAndComparisonIsErrorIsFalse(pageable: Pageable): Page<StampReportEntity>
+    fun findByDeletionIsDoneIsFalseAndComparisonIsErrorIsFalse(pageable: Pageable): Page<StampReportEntity>
 }

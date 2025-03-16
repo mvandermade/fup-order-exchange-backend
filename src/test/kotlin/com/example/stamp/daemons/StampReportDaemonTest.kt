@@ -18,7 +18,6 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.data.repository.findByIdOrNull
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import java.time.OffsetDateTime
 
 @SpringBootTest
 @Testcontainers
@@ -54,8 +53,6 @@ class StampReportDaemonTest(
             stampReportRepository.save(
                 StampReportEntity(
                     code = stamp.code,
-                    reportIsConfirmedAt = OffsetDateTime.now(),
-                    reportIsConfirmed = true,
                 ),
             )
 
@@ -70,65 +67,6 @@ class StampReportDaemonTest(
     }
 
     @Test
-    fun `Date of orderStamp is bigger than the report expect ignore flag`() {
-        val order = orderRepository.save(minRandom())
-        val stamp = stampRepository.save(minRandom<StampEntity>().apply { code = "ABC" })
-
-        val orderStamp =
-            orderStampRepository.save(
-                OrderStampEntity(order, stamp),
-            )
-
-        val report =
-            stampReportRepository.save(
-                StampReportEntity(
-                    code = stamp.code,
-                    reportIsConfirmedAt = OffsetDateTime.now().minusDays(1),
-                    reportIsConfirmed = true,
-                ),
-            )
-
-        stampReportDaemon.findStampReportsAndDelete()
-
-        val reportAfter = stampReportRepository.findByIdOrNull(report.id)
-        assertThat(reportAfter?.deletionIsDone).isFalse()
-        assertThat(reportAfter?.comparisonIsError).isTrue()
-
-        assertThat(
-            orderStampRepository.findByIdOrNull(orderStamp.id),
-        ).isNotNull()
-    }
-
-    @Test
-    fun `Report is not confirmed expect nothing happens`() {
-        val order = orderRepository.save(minRandom())
-        val stamp = stampRepository.save(minRandom<StampEntity>().apply { code = "ABC" })
-
-        val orderStamp =
-            orderStampRepository.save(
-                OrderStampEntity(order, stamp),
-            )
-
-        val report =
-            stampReportRepository.save(
-                StampReportEntity(
-                    code = stamp.code,
-                    reportIsConfirmedAt = OffsetDateTime.now(),
-                    reportIsConfirmed = false,
-                ),
-            )
-
-        stampReportDaemon.findStampReportsAndDelete()
-
-        val reportAfter = stampReportRepository.findByIdOrNull(report.id)
-        assertThat(reportAfter?.deletionIsDone).isFalse()
-
-        assertThat(
-            orderStampRepository.findByIdOrNull(orderStamp.id),
-        ).isNotNull()
-    }
-
-    @Test
     fun `Stamp has no order entity attached expect mark deleted`() {
         val stamp = stampRepository.save(minRandom<StampEntity>().apply { code = "ABC" })
 
@@ -136,8 +74,6 @@ class StampReportDaemonTest(
             stampReportRepository.save(
                 StampReportEntity(
                     code = stamp.code,
-                    reportIsConfirmedAt = OffsetDateTime.now(),
-                    reportIsConfirmed = true,
                 ),
             )
 
@@ -148,36 +84,6 @@ class StampReportDaemonTest(
     }
 
     @Test
-    fun `Error the timestamp is null expect comparison is error`() {
-        val order = orderRepository.save(minRandom())
-        val stamp = stampRepository.save(minRandom<StampEntity>().apply { code = "ABC" })
-
-        val orderStamp =
-            orderStampRepository.save(
-                OrderStampEntity(order, stamp),
-            )
-
-        val report =
-            stampReportRepository.save(
-                StampReportEntity(
-                    code = stamp.code,
-                    reportIsConfirmedAt = null,
-                    reportIsConfirmed = true,
-                ),
-            )
-
-        stampReportDaemon.findStampReportsAndDelete()
-
-        val reportAfter = stampReportRepository.findByIdOrNull(report.id)
-        assertThat(reportAfter?.deletionIsDone).isFalse()
-        assertThat(reportAfter?.comparisonIsError).isTrue()
-
-        assertThat(
-            orderStampRepository.findByIdOrNull(orderStamp.id),
-        ).isNotNull()
-    }
-
-    @Test
     fun `Check if loop continues after not found`() {
         val stamp = stampRepository.save(minRandom<StampEntity>().apply { code = "ABC" })
 
@@ -185,8 +91,6 @@ class StampReportDaemonTest(
             stampReportRepository.save(
                 StampReportEntity(
                     code = stamp.code,
-                    reportIsConfirmedAt = OffsetDateTime.now(),
-                    reportIsConfirmed = false,
                 ),
             )
 
@@ -202,15 +106,13 @@ class StampReportDaemonTest(
             stampReportRepository.save(
                 StampReportEntity(
                     code = stamp2.code,
-                    reportIsConfirmedAt = OffsetDateTime.now(),
-                    reportIsConfirmed = true,
                 ),
             )
 
         stampReportDaemon.findStampReportsAndDelete()
 
         val reportAfter = stampReportRepository.findByIdOrNull(report.id)
-        assertThat(reportAfter?.deletionIsDone).isFalse()
+        assertThat(reportAfter?.deletionIsDone).isTrue()
 
         val reportAfter2 = stampReportRepository.findByIdOrNull(report2.id)
         assertThat(reportAfter2?.deletionIsDone).isTrue()

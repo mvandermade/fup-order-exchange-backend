@@ -14,17 +14,17 @@ import jakarta.persistence.Table
 import org.hibernate.proxy.HibernateProxy
 
 @Entity
-@Table(name = "order_idempotency_keys")
-class OrderIdempotencyKeyEntity(
+@Table(name = "stamp_report_idempotency_keys")
+class StampReportIdempotencyKeyEntity(
     @Column(name = "user_key", unique = true)
     var userKey: String,
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
-    @JoinColumn(name = "order_id", nullable = true)
-    var order: OrderEntity,
+    @JoinColumn(name = "stamp_report_id", nullable = true)
+    var stampReport: StampReportEntity,
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_idempotency_keys_gen")
-    @SequenceGenerator(name = "order_idempotency_keys_gen", sequenceName = "order_idempotency_keys_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stamp_report_idempotency_keys_gen")
+    @SequenceGenerator(name = "stamp_report_idempotency_keys_gen", sequenceName = "stamp_report_idempotency_keys_seq")
     @Column(nullable = false)
     var id: Long = 0
 
@@ -36,9 +36,9 @@ class OrderIdempotencyKeyEntity(
         val thisEffectiveClass =
             if (this is HibernateProxy) this.hibernateLazyInitializer.persistentClass else this.javaClass
         if (thisEffectiveClass != oEffectiveClass) return false
-        other as OrderIdempotencyKeyEntity
+        other as StampReportIdempotencyKeyEntity
 
-        return id == other.id
+        return id != null && id == other.id
     }
 
     final override fun hashCode(): Int =
