@@ -10,6 +10,8 @@ spring:
 springdoc:
   enable-kotlin: true
   packages-to-scan: com.example.stamp.controllers
+server:
+  port: 8881
 ---
 spring:
   config:

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    hikari:
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+    url: ${DB_JDBC_URL}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: /db/changelog/db.changelog-master.xml
+springdoc:
+  enable-kotlin: true
+  packages-to-scan: com.example.stamp.controllers
+server:
+  port: 8080
