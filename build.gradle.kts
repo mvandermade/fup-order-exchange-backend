@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "3.5.0"
+    id("org.springframework.boot") version "3.5.3"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
     id("com.github.ben-manes.versions") version "0.52.0"
@@ -34,8 +34,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("org.liquibase:liquibase-core")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    testImplementation("org.testcontainers:junit-jupiter:1.20.5")
-    testImplementation("org.testcontainers:postgresql:1.20.5")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.2")
+    testImplementation("org.testcontainers:postgresql:1.21.2")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
