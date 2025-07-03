@@ -1,6 +1,7 @@
 package com.example.stamp.services
 
 import com.example.stamp.entities.OrderEntity
+import com.example.stamp.entities.OrderIdempotencyKeyEntity
 import com.example.stamp.entities.OrderStampEntity
 import com.example.stamp.entities.StampEntity
 import com.example.stamp.repositories.OrderIdempotencyKeyRepository
@@ -10,7 +11,6 @@ import com.example.stamp.repositories.StampRepository
 import com.example.stamp.testutils.buildPostgresContainer
 import com.ninjasquad.springmockk.SpykBean
 import io.mockk.clearAllMocks
-import io.mockk.every
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -19,6 +19,7 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
+import org.springframework.dao.DataIntegrityViolationException
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
@@ -43,10 +44,19 @@ class OrderServiceTest(
 
     @Test
     fun `Idempotency key save failure is transactional test`() {
-        every { orderIdempotencyKeyService.saveIdempotencyKey("123", any()) } throws Exception("oops")
-        assertThrows<Exception> {
+        val order = orderRepository.save(minRandom())
+
+        orderIdempotencyKeyRepository.save(
+            OrderIdempotencyKeyEntity(
+                userKey = "123",
+                order = order,
+            ),
+        )
+        assertThrows<DataIntegrityViolationException> {
             orderService.postOrder(idempotentUserKey = "123")
         }
+
+        orderRepository.delete(order)
         assertThat(orderRepository.count()).isEqualTo(0)
     }
 
