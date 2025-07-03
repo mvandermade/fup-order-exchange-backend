@@ -24,6 +24,7 @@ class ExceptionMapper(
         )
     }
 
+    @Suppress("unused")
     fun toResponseBody(e: HttpMessageNotReadableException): String {
         return objectMapper.writeValueAsString(
             ResponseExceptionResponse(

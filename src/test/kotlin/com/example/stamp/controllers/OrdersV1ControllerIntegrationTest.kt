@@ -107,6 +107,7 @@ class OrdersV1ControllerIntegrationTest(
 
         @Container
         @ServiceConnection
+        @Suppress("unused")
         val postgresContainer = buildPostgresContainer()
     }
 }

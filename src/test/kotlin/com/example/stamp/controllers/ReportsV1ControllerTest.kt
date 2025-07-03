@@ -84,22 +84,22 @@ class ReportsV1ControllerTest(
 
         mockMvc.perform(
             post("$PATH/stamp-code")
-                .header("idempotency-key", "abc")
+                .header("idempotency-key", "idpk")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(stampReportRequest)),
         )
             .andExpect(status().isOk)
             .andReturn().let { objectMapper.readValue<StampReportV1Response>(it.response.contentAsString) }
 
-        assertThat(stampReportIdempotencyKeyRepository.findByUserKey("abc")).isNotNull
-        verify(exactly = 1) { reportService.postStampReport(any(), "abc") }
+        assertThat(stampReportIdempotencyKeyRepository.findByUserKey("idpk")).isNotNull
+        verify(exactly = 1) { reportService.postStampReport(any(), "idpk") }
         verify(exactly = 0) { reportService.getStampReport(any()) }
 
         // Check the cache works
 
         mockMvc.perform(
             post("$PATH/stamp-code")
-                .header("idempotency-key", "abc")
+                .header("idempotency-key", "idpk")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(stampReportRequest)),
         )
@@ -113,6 +113,7 @@ class ReportsV1ControllerTest(
 
         @Container
         @ServiceConnection
+        @Suppress("unused")
         val postgresContainer = buildPostgresContainer()
     }
 }

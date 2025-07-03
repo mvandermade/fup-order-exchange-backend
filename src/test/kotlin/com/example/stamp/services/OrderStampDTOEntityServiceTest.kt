@@ -76,6 +76,7 @@ class OrderStampDTOEntityServiceTest(
     companion object {
         @Container
         @ServiceConnection
+        @Suppress("unused")
         val postgresContainer = buildPostgresContainer()
     }
 }

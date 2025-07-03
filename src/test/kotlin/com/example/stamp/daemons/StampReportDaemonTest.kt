@@ -125,6 +125,7 @@ class StampReportDaemonTest(
     companion object {
         @Container
         @ServiceConnection
+        @Suppress("unused")
         val postgresContainer = buildPostgresContainer()
     }
 }

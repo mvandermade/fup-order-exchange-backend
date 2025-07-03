@@ -9,8 +9,6 @@ import com.example.stamp.repositories.OrderRepository
 import com.example.stamp.repositories.OrderStampRepository
 import com.example.stamp.repositories.StampRepository
 import com.example.stamp.testutils.buildPostgresContainer
-import com.ninjasquad.springmockk.SpykBean
-import io.mockk.clearAllMocks
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -32,14 +30,10 @@ class OrderServiceTest(
     @Autowired val orderStampRepository: OrderStampRepository,
     @Autowired val orderIdempotencyKeyRepository: OrderIdempotencyKeyRepository,
 ) {
-    @SpykBean
-    private lateinit var orderIdempotencyKeyService: OrderIdempotencyKeyService
-
     @BeforeEach
     fun setUp() {
         orderIdempotencyKeyRepository.deleteAll()
         orderRepository.deleteAll()
-        clearAllMocks()
     }
 
     @Test
@@ -56,8 +50,7 @@ class OrderServiceTest(
             orderService.postOrder(idempotentUserKey = "123")
         }
 
-        orderRepository.delete(order)
-        assertThat(orderRepository.count()).isEqualTo(0)
+        assertThat(orderRepository.count()).isEqualTo(1)
     }
 
     @Test
@@ -93,6 +86,7 @@ class OrderServiceTest(
     companion object {
         @Container
         @ServiceConnection
+        @Suppress("unused")
         val postgresContainer = buildPostgresContainer()
     }
 }

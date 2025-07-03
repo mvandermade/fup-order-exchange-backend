@@ -4,11 +4,11 @@ import com.example.stamp.dtos.OrderDTO
 import com.example.stamp.entities.OrderEntity
 import com.example.stamp.exceptions.OrderNotFoundV1Exception
 import com.example.stamp.mappers.OrderMapper
+import com.example.stamp.providers.TransactionProvider
 import com.example.stamp.repositories.OrderRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class OrderService(
@@ -16,18 +16,22 @@ class OrderService(
     private val orderMapper: OrderMapper,
     private val orderStampService: OrderStampService,
     private val orderIdempotencyKeyService: OrderIdempotencyKeyService,
+    private val transactionProvider: TransactionProvider,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    @Transactional(rollbackFor = [Exception::class])
     fun postOrder(idempotentUserKey: String): OrderDTO {
-        val entity =
-            orderRepository.save(
-                OrderEntity(),
-            )
-        orderIdempotencyKeyService.saveIdempotencyKey(idempotentUserKey, entity.id)
+        val committedEntity =
+            transactionProvider.newReadWrite {
+                val entity =
+                    orderRepository.save(
+                        OrderEntity(),
+                    )
+                orderIdempotencyKeyService.saveIdempotencyKey(idempotentUserKey, entity.id)
+                entity
+            }
 
-        return orderMapper.toDTO(entity, entity.orderStampEntity?.stampEntity)
+        return orderMapper.toDTO(committedEntity, committedEntity.orderStampEntity?.stampEntity)
     }
 
     fun getOrder(orderId: Long): OrderDTO {
