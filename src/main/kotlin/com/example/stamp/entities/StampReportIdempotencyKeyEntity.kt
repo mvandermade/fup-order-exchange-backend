@@ -38,7 +38,7 @@ class StampReportIdempotencyKeyEntity(
         if (thisEffectiveClass != oEffectiveClass) return false
         other as StampReportIdempotencyKeyEntity
 
-        return id != null && id == other.id
+        return id == other.id
     }
 
     final override fun hashCode(): Int =

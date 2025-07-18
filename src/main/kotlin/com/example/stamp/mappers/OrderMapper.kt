@@ -10,21 +10,19 @@ import org.springframework.stereotype.Component
 class OrderMapper(
     val stampMapper: StampMapper,
 ) {
-    fun toResponse(orderDTO: OrderDTO): OrderV1Response {
-        return OrderV1Response(
+    fun toResponse(orderDTO: OrderDTO): OrderV1Response =
+        OrderV1Response(
             id = orderDTO.id,
             stamp = orderDTO.stamp,
         )
-    }
 
     fun toDTO(
         orderEntity: OrderEntity,
         stampEntity: StampEntity?,
-    ): OrderDTO {
-        return OrderDTO(
+    ): OrderDTO =
+        OrderDTO(
             orderEntity.id,
             orderEntity.createdAt,
             stamp = stampEntity?.let { stampMapper.toDTO(it) },
         )
-    }
 }

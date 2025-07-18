@@ -7,11 +7,10 @@ import org.springframework.stereotype.Component
 
 @Component
 class ReportMapper {
-    fun toResponse(stampReport: StampReportDTO): StampReportV1Response {
-        return StampReportV1Response(
+    fun toResponse(stampReport: StampReportDTO): StampReportV1Response =
+        StampReportV1Response(
             id = stampReport.id,
         )
-    }
 
     fun toDTO(stampReportEntity: StampReportEntity): StampReportDTO {
         val createdAtServer =

@@ -16,8 +16,8 @@ class ResponseExceptionAdvice(
     private val exceptionMapper: ExceptionMapper,
 ) {
     @ExceptionHandler(ResponseV1Exception::class)
-    fun handle(e: ResponseV1Exception): ResponseEntity<String> {
-        return ResponseEntity.status(e.httpStatus)
+    fun handle(e: ResponseV1Exception): ResponseEntity<String> =
+        ResponseEntity
+            .status(e.httpStatus)
             .body(exceptionMapper.toResponseBody(e))
-    }
 }

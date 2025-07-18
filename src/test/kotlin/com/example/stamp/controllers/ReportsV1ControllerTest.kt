@@ -29,10 +29,10 @@ import java.time.OffsetDateTime
 @Testcontainers
 @AutoConfigureMockMvc
 class ReportsV1ControllerTest(
-    @Autowired private val mockMvc: MockMvc,
-    @Autowired private val objectMapper: ObjectMapper,
-    @Autowired private val stampReportRepository: StampReportRepository,
-    @Autowired private val stampReportIdempotencyKeyRepository: StampReportIdempotencyKeyRepository,
+    @param:Autowired private val mockMvc: MockMvc,
+    @param:Autowired private val objectMapper: ObjectMapper,
+    @param:Autowired private val stampReportRepository: StampReportRepository,
+    @param:Autowired private val stampReportIdempotencyKeyRepository: StampReportIdempotencyKeyRepository,
 ) {
     @SpykBean
     private lateinit var reportService: ReportService
@@ -55,14 +55,15 @@ class ReportsV1ControllerTest(
             )
 
         val response =
-            mockMvc.perform(
-                post("$PATH/stamp-code")
-                    .header("idempotency-key", "abc")
-                    .contentType("application/json")
-                    .content(objectMapper.writeValueAsString(stampRequest)),
-            )
-                .andExpect(status().isOk)
-                .andReturn().let { objectMapper.readValue<StampReportV1Response>(it.response.contentAsString) }
+            mockMvc
+                .perform(
+                    post("$PATH/stamp-code")
+                        .header("idempotency-key", "abc")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(stampRequest)),
+                ).andExpect(status().isOk)
+                .andReturn()
+                .let { objectMapper.readValue<StampReportV1Response>(it.response.contentAsString) }
 
         //  Check if it is actually in the DB
         val reportInDB =
@@ -82,14 +83,15 @@ class ReportsV1ControllerTest(
                 comment = null,
             )
 
-        mockMvc.perform(
-            post("$PATH/stamp-code")
-                .header("idempotency-key", "idpk")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(stampReportRequest)),
-        )
-            .andExpect(status().isOk)
-            .andReturn().let { objectMapper.readValue<StampReportV1Response>(it.response.contentAsString) }
+        mockMvc
+            .perform(
+                post("$PATH/stamp-code")
+                    .header("idempotency-key", "idpk")
+                    .contentType("application/json")
+                    .content(objectMapper.writeValueAsString(stampReportRequest)),
+            ).andExpect(status().isOk)
+            .andReturn()
+            .let { objectMapper.readValue<StampReportV1Response>(it.response.contentAsString) }
 
         assertThat(stampReportIdempotencyKeyRepository.findByUserKey("idpk")).isNotNull
         verify(exactly = 1) { reportService.postStampReport(any(), "idpk") }
@@ -97,13 +99,13 @@ class ReportsV1ControllerTest(
 
         // Check the cache works
 
-        mockMvc.perform(
-            post("$PATH/stamp-code")
-                .header("idempotency-key", "idpk")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(stampReportRequest)),
-        )
-            .andExpect(status().isOk)
+        mockMvc
+            .perform(
+                post("$PATH/stamp-code")
+                    .header("idempotency-key", "idpk")
+                    .contentType("application/json")
+                    .content(objectMapper.writeValueAsString(stampReportRequest)),
+            ).andExpect(status().isOk)
 
         verify(exactly = 1) { reportService.getStampReport(any()) }
     }

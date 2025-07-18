@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest
 @Testcontainers
 class StampRepositoryTest(
-    @Autowired val stampRepository: StampRepository,
+    @param:Autowired val stampRepository: StampRepository,
 ) {
     @Test
     fun `Should fetch a stamp without an order`() {

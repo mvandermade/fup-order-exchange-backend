@@ -24,10 +24,10 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @ExtendWith(OutputCaptureExtension::class)
 class OrderStampDTOEntityServiceTest(
-    @Autowired private val orderStampService: OrderStampService,
-    @Autowired private val orderRepository: OrderRepository,
-    @Autowired private val stampRepository: StampRepository,
-    @Autowired private val orderStampRepository: OrderStampRepository,
+    @param:Autowired private val orderStampService: OrderStampService,
+    @param:Autowired private val orderRepository: OrderRepository,
+    @param:Autowired private val stampRepository: StampRepository,
+    @param:Autowired private val orderStampRepository: OrderStampRepository,
 ) {
     @BeforeEach
     fun setUp() {

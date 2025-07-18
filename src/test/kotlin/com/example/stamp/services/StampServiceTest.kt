@@ -19,7 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest
 @Testcontainers
 class StampServiceTest(
-    @Autowired private val stampService: StampService,
+    @param:Autowired private val stampService: StampService,
 ) {
     @MockkBean
     private lateinit var randomProviderMock: RandomProvider

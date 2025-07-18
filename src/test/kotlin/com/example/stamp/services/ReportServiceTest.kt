@@ -22,9 +22,9 @@ import java.time.temporal.ChronoUnit
 @SpringBootTest
 @Testcontainers
 class ReportServiceTest(
-    @Autowired private val reportService: ReportService,
-    @Autowired private val stampReportRepository: StampReportRepository,
-    @Autowired private val stampReportIdempotencyKeyRepository: StampReportIdempotencyKeyRepository,
+    @param:Autowired private val reportService: ReportService,
+    @param:Autowired private val stampReportRepository: StampReportRepository,
+    @param:Autowired private val stampReportIdempotencyKeyRepository: StampReportIdempotencyKeyRepository,
 ) {
     @MockkBean
     private lateinit var timeProvider: TimeProvider

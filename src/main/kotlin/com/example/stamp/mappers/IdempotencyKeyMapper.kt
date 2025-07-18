@@ -8,17 +8,15 @@ import org.springframework.stereotype.Component
 
 @Component
 class IdempotencyKeyMapper {
-    fun toDTO(entity: OrderIdempotencyKeyEntity): OrderIdempotencyKeyDTO {
-        return OrderIdempotencyKeyDTO(
+    fun toDTO(entity: OrderIdempotencyKeyEntity): OrderIdempotencyKeyDTO =
+        OrderIdempotencyKeyDTO(
             id = entity.id,
             orderId = entity.order.id,
         )
-    }
 
-    fun toDTO(entity: StampReportIdempotencyKeyEntity): StampReportIdempotencyKeyDTO {
-        return StampReportIdempotencyKeyDTO(
+    fun toDTO(entity: StampReportIdempotencyKeyEntity): StampReportIdempotencyKeyDTO =
+        StampReportIdempotencyKeyDTO(
             id = entity.id,
             stampReportId = entity.stampReport.id,
         )
-    }
 }

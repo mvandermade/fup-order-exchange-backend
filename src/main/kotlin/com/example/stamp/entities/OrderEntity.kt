@@ -15,7 +15,7 @@ import java.time.OffsetDateTime
 
 @Entity
 @Table(name = "orders")
-class OrderEntity() {
+class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long = 0

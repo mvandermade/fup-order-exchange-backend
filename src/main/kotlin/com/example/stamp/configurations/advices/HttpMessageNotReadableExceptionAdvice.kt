@@ -17,8 +17,8 @@ class HttpMessageNotReadableExceptionAdvice(
     private val exceptionMapper: ExceptionMapper,
 ) {
     @ExceptionHandler(HttpMessageNotReadableException::class)
-    fun handle(e: HttpMessageNotReadableException): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+    fun handle(e: HttpMessageNotReadableException): ResponseEntity<String> =
+        ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
             .body(exceptionMapper.toResponseBody(e))
-    }
 }

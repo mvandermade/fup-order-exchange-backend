@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component
 class ExceptionMapper(
     private val objectMapper: ObjectMapper,
 ) {
-    fun toResponseBody(e: ResponseV1Exception): String {
-        return objectMapper.writeValueAsString(
+    fun toResponseBody(e: ResponseV1Exception): String =
+        objectMapper.writeValueAsString(
             ResponseExceptionResponse(
                 httpStatus = e.httpStatus.value(),
                 message = e.message,
@@ -22,11 +22,10 @@ class ExceptionMapper(
                 errorCode = e.errorCode,
             ),
         )
-    }
 
     @Suppress("unused")
-    fun toResponseBody(e: HttpMessageNotReadableException): String {
-        return objectMapper.writeValueAsString(
+    fun toResponseBody(e: HttpMessageNotReadableException): String =
+        objectMapper.writeValueAsString(
             ResponseExceptionResponse(
                 httpStatus = HttpStatus.BAD_REQUEST.value(),
                 message = "Missing value",
@@ -35,10 +34,9 @@ class ExceptionMapper(
                 errorCode = ErrorCode.MISSING_VALUE,
             ),
         )
-    }
 
-    fun toGenericException(): String {
-        return objectMapper.writeValueAsString(
+    fun toGenericException(): String =
+        objectMapper.writeValueAsString(
             ResponseExceptionResponse(
                 500,
                 "Something went wrong",
@@ -47,5 +45,4 @@ class ExceptionMapper(
                 ErrorCode.UNKNOWN_ERROR,
             ),
         )
-    }
 }

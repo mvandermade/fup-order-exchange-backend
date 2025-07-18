@@ -24,11 +24,11 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest
 @Testcontainers
 class OrderServiceTest(
-    @Autowired val orderService: OrderService,
-    @Autowired val orderRepository: OrderRepository,
-    @Autowired val stampRepository: StampRepository,
-    @Autowired val orderStampRepository: OrderStampRepository,
-    @Autowired val orderIdempotencyKeyRepository: OrderIdempotencyKeyRepository,
+    @param:Autowired val orderService: OrderService,
+    @param:Autowired val orderRepository: OrderRepository,
+    @param:Autowired val stampRepository: StampRepository,
+    @param:Autowired val orderStampRepository: OrderStampRepository,
+    @param:Autowired val orderIdempotencyKeyRepository: OrderIdempotencyKeyRepository,
 ) {
     @BeforeEach
     fun setUp() {

@@ -6,7 +6,5 @@ import org.springframework.stereotype.Component
 
 @Component
 class StampMapper {
-    fun toDTO(stampEntity: StampEntity): StampDTO {
-        return StampDTO(stampEntity.code)
-    }
+    fun toDTO(stampEntity: StampEntity): StampDTO = StampDTO(stampEntity.code)
 }

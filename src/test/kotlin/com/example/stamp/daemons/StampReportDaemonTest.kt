@@ -22,11 +22,11 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest
 @Testcontainers
 class StampReportDaemonTest(
-    @Autowired private val stampReportDaemon: StampReportDaemon,
-    @Autowired private val stampRepository: StampRepository,
-    @Autowired private val orderStampRepository: OrderStampRepository,
-    @Autowired private val orderRepository: OrderRepository,
-    @Autowired private val stampReportRepository: StampReportRepository,
+    @param:Autowired private val stampReportDaemon: StampReportDaemon,
+    @param:Autowired private val stampRepository: StampRepository,
+    @param:Autowired private val orderStampRepository: OrderStampRepository,
+    @param:Autowired private val orderRepository: OrderRepository,
+    @param:Autowired private val stampReportRepository: StampReportRepository,
 ) {
     @BeforeEach
     fun setUp() {

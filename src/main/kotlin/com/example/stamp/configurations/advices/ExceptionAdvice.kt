@@ -20,7 +20,8 @@ class ExceptionAdvice(
     @ExceptionHandler(Exception::class)
     fun handle(e: Exception): ResponseEntity<String> {
         logger.warn("Error has occurred in controller", e)
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(exceptionMapper.toGenericException())
     }
 }

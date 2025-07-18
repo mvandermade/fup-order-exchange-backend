@@ -30,11 +30,11 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @AutoConfigureMockMvc
 class OrdersV1ControllerIntegrationTest(
-    @Autowired private val orderRepository: OrderRepository,
-    @Autowired private val objectMapper: ObjectMapper,
-    @Autowired private val mockMvc: MockMvc,
-    @Autowired private val stampRepository: StampRepository,
-    @Autowired private val orderStampRepository: OrderStampRepository,
+    @param:Autowired private val orderRepository: OrderRepository,
+    @param:Autowired private val objectMapper: ObjectMapper,
+    @param:Autowired private val mockMvc: MockMvc,
+    @param:Autowired private val stampRepository: StampRepository,
+    @param:Autowired private val orderStampRepository: OrderStampRepository,
 ) {
     @BeforeEach
     fun setUp() {
@@ -46,9 +46,11 @@ class OrdersV1ControllerIntegrationTest(
     @Test
     fun `POST should persist order in database`() {
         val response =
-            mockMvc.perform(post(PATH).header("idempotency-key", "temp"))
+            mockMvc
+                .perform(post(PATH).header("idempotency-key", "temp"))
                 .andExpect(status().isOk)
-                .andReturn().let { objectMapper.readValue<OrderV1Response>(it.response.contentAsString) }
+                .andReturn()
+                .let { objectMapper.readValue<OrderV1Response>(it.response.contentAsString) }
 
         //  Check if it is actually in the DB
         val orderInDB =
@@ -71,9 +73,11 @@ class OrdersV1ControllerIntegrationTest(
             )
 
             val result =
-                mockMvc.perform(get("$PATH/${orderEntity.id}"))
+                mockMvc
+                    .perform(get("$PATH/${orderEntity.id}"))
                     .andExpect(status().isOk)
-                    .andReturn().let { objectMapper.readValue<OrderV1Response>(it.response.contentAsString) }
+                    .andReturn()
+                    .let { objectMapper.readValue<OrderV1Response>(it.response.contentAsString) }
 
             assertThat(result.stamp?.code).isEqualTo("ABCD")
         }
@@ -81,7 +85,8 @@ class OrdersV1ControllerIntegrationTest(
         @Test
         fun `Expect order not found`() {
             val result =
-                mockMvc.perform(get("$PATH/0"))
+                mockMvc
+                    .perform(get("$PATH/0"))
                     .andExpect(status().is4xxClientError)
                     .andReturn()
 
