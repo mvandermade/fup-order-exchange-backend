@@ -21,7 +21,7 @@ class StampGenerator(
             }
         } catch (e: Exception) {
             if (e.message?.contains("Unique index or primary key violation:") == true) {
-                logger.info("Random stamp was duplicated")
+                logger.debug("Random stamp was duplicated")
             } else {
                 e.printStackTrace()
             }

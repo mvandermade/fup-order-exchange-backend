@@ -50,8 +50,8 @@ class OrderService(
         if (order.orderStampEntity?.stampEntity != null) {
             logger.info("Serving stamp from database")
         } else {
-            logger.info("Trying to attach stamp immediately...")
-            orderStampService.attachStampsToOrderId(order.id)
+            logger.info("Triggering attach stamps for order $orderId...")
+            orderStampService.attachStampsToEarliestCreatedAt()
         }
 
         val updatedOrder = orderRepository.findByIdOrNull(orderId) ?: throw OrderNotFoundV1Exception(orderId)

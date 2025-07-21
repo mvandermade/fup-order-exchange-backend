@@ -1,5 +1,17 @@
-# made-funicular-postzegel
-Demonstration project on how items can be picked only once using optimistic locking
+# fup-order-exchange
+Inspired by the stamps now in use, this service instead generates random emoji.
+This is to avoid confusion with real ones.
+
+# Flows
+## REST
+- Place an order 
+  - Wait a bit and re-submit to obtain a code.
+  - Ask for a code a.s.a.p. using a REST endpoint.
+
+## M2M
+- Report emoji-codes
+  - The backend can submit found emoji-codes in the wild and report them.
+  - The backend can use idempotency keys to allow for multi-submits for retry-ability.
 
 # Getting started
 Use an environment to build your application.
