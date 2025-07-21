@@ -52,6 +52,35 @@ Use gradle htmlDependencyReport
 Or re-run the dependency submission action in debug mode:
 https://github.com/gradle/actions/blob/main/docs/dependency-submission.md
 
+# Supported Emojis
+```kotlin
+val emojis: List<String> =
+    listOf(
+        "🏗️",
+        "😊",
+        "😂",
+        "😌",
+        "😁",
+        "🙏",
+        "😎",
+        "💪",
+        "😋",
+        "😇",
+        "🎉",
+        "🙌",
+        "🤘",
+        "👍",
+        "🤑",
+        "🤩",
+        "🤪",
+        "🤠",
+        "🥳",
+        "🤤",
+        "😍",
+        "😀",
+    )
+```
+
 Or manually update using `dependencyUpdates`
 
 # Packaging
