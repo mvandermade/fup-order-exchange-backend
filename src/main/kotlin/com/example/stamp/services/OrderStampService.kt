@@ -22,8 +22,7 @@ class OrderStampService(
     private val stampMapper: StampMapper,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
-
-    fun attachStampsToOrderId(orderId: Long): StampDTO {
+    private fun attachStampsToOrderId(orderId: Long): StampDTO {
         val orderEntity =
             orderRepository.findByIdOrNull(orderId)
                 ?: throw OrderNotFoundV1Exception(orderId)

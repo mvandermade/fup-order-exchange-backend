@@ -1,6 +1,6 @@
 package com.example.stamp.services
 
-import com.example.stamp.providers.RandomProvider
+import com.example.stamp.providers.EmojiProvider
 import com.example.stamp.repositories.StampRepository
 import com.example.stamp.testutils.buildPostgresContainer
 import com.ninjasquad.springmockk.MockkBean
@@ -22,20 +22,20 @@ class StampServiceTest(
     @param:Autowired private val stampService: StampService,
 ) {
     @MockkBean
-    private lateinit var randomProviderMock: RandomProvider
+    private lateinit var emojiProviderMock: EmojiProvider
 
     @MockitoSpyBean
     private lateinit var stampRepositorySpyk: StampRepository
 
     @Test
     fun `Should persist code`() {
-        every { randomProviderMock.randomString(any()) } returns "test"
+        every { emojiProviderMock.randomEmoji() } returns "test"
         stampService.persistRandomStamp()
     }
 
     @Test
     fun `Expect no error code is not unique because of null check`() {
-        every { randomProviderMock.randomString(any()) } returns "test"
+        every { emojiProviderMock.randomEmoji() } returns "test"
 
         stampService.persistRandomStamp()
         stampService.persistRandomStamp()
@@ -43,7 +43,7 @@ class StampServiceTest(
 
     @Test
     fun `Expect error code is not unique`() {
-        every { randomProviderMock.randomString(any()) } returns "test"
+        every { emojiProviderMock.randomEmoji() } returns "test"
 
         stampService.persistRandomStamp()
 

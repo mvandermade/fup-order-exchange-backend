@@ -29,6 +29,9 @@ spring:
       username: user
       password: admin
     url: jdbc:h2:file:~/test
+logging:
+  level:
+    com.example.stamp: DEBUG
 ---
 spring:
   config:

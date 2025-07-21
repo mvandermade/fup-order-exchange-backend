@@ -1,1 +1,1 @@
-rootProject.name = "made-funicular-postzegel-backend-kotlin"
+rootProject.name = "fup-order-exchange"
