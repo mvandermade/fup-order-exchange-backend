@@ -22,6 +22,7 @@ class OrderStampService(
     private val stampMapper: StampMapper,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
+
     private fun attachStampsToOrderId(orderId: Long): StampDTO {
         val orderEntity =
             orderRepository.findByIdOrNull(orderId)
