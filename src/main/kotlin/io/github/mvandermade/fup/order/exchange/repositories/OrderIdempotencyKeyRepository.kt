@@ -1,6 +1,6 @@
 package io.github.mvandermade.fup.order.exchange.repositories
 
-import com.example.stamp.entities.OrderIdempotencyKeyEntity
+import io.github.mvandermade.fup.order.exchange.entities.OrderIdempotencyKeyEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

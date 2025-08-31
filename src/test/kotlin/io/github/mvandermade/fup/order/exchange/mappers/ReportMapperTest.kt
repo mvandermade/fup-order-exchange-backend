@@ -1,6 +1,6 @@
 package io.github.mvandermade.fup.order.exchange.mappers
 
-import com.example.stamp.entities.StampReportEntity
+import io.github.mvandermade.fup.order.exchange.entities.StampReportEntity
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested

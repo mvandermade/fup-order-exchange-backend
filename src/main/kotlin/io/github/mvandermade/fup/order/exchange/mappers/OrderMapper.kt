@@ -1,9 +1,9 @@
 package io.github.mvandermade.fup.order.exchange.mappers
 
-import com.example.stamp.controllers.responses.OrderV1Response
-import com.example.stamp.dtos.OrderDTO
-import com.example.stamp.entities.OrderEntity
-import com.example.stamp.entities.StampEntity
+import io.github.mvandermade.fup.order.exchange.controllers.responses.OrderV1Response
+import io.github.mvandermade.fup.order.exchange.dtos.OrderDTO
+import io.github.mvandermade.fup.order.exchange.entities.OrderEntity
+import io.github.mvandermade.fup.order.exchange.entities.StampEntity
 import org.springframework.stereotype.Component
 
 @Component

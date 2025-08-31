@@ -1,8 +1,8 @@
 package io.github.mvandermade.fup.order.exchange.services
 
-import com.example.stamp.entities.StampEntity
-import com.example.stamp.providers.EmojiProvider
-import com.example.stamp.repositories.StampRepository
+import io.github.mvandermade.fup.order.exchange.entities.StampEntity
+import io.github.mvandermade.fup.order.exchange.providers.EmojiProvider
+import io.github.mvandermade.fup.order.exchange.repositories.StampRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 

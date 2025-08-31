@@ -1,6 +1,6 @@
 package io.github.mvandermade.fup.order.exchange.daemons
 
-import com.example.stamp.services.OrderStampService
+import io.github.mvandermade.fup.order.exchange.services.OrderStampService
 import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

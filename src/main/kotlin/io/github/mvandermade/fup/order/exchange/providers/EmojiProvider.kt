@@ -1,6 +1,6 @@
 package io.github.mvandermade.fup.order.exchange.providers
 
-import com.example.stamp.providers.constants.emojis
+import io.github.mvandermade.fup.order.exchange.providers.constants.emojis
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.util.concurrent.atomic.AtomicLong

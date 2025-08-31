@@ -1,7 +1,7 @@
 package io.github.mvandermade.fup.order.exchange.mappers
 
-import com.example.stamp.dtos.StampDTO
-import com.example.stamp.entities.StampEntity
+import io.github.mvandermade.fup.order.exchange.dtos.StampDTO
+import io.github.mvandermade.fup.order.exchange.entities.StampEntity
 import org.springframework.stereotype.Component
 
 @Component

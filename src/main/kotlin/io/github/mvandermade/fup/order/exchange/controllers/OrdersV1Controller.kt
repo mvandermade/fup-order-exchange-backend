@@ -1,9 +1,9 @@
 package io.github.mvandermade.fup.order.exchange.controllers
 
-import com.example.stamp.controllers.responses.OrderV1Response
-import com.example.stamp.mappers.OrderMapper
-import com.example.stamp.services.OrderIdempotencyKeyService
-import com.example.stamp.services.OrderService
+import io.github.mvandermade.fup.order.exchange.controllers.responses.OrderV1Response
+import io.github.mvandermade.fup.order.exchange.mappers.OrderMapper
+import io.github.mvandermade.fup.order.exchange.services.OrderIdempotencyKeyService
+import io.github.mvandermade.fup.order.exchange.services.OrderService
 import org.springframework.context.annotation.Description
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

@@ -1,9 +1,9 @@
 package io.github.mvandermade.fup.order.exchange.daemons
 
-import com.example.stamp.providers.TransactionProvider
-import com.example.stamp.repositories.OrderStampRepository
-import com.example.stamp.repositories.StampReportRepository
-import com.example.stamp.repositories.StampRepository
+import io.github.mvandermade.fup.order.exchange.providers.TransactionProvider
+import io.github.mvandermade.fup.order.exchange.repositories.OrderStampRepository
+import io.github.mvandermade.fup.order.exchange.repositories.StampReportRepository
+import io.github.mvandermade.fup.order.exchange.repositories.StampRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

@@ -1,11 +1,11 @@
 package io.github.mvandermade.fup.order.exchange.services
 
-import com.example.stamp.dtos.OrderDTO
-import com.example.stamp.entities.OrderEntity
-import com.example.stamp.exceptions.OrderNotFoundV1Exception
-import com.example.stamp.mappers.OrderMapper
-import com.example.stamp.providers.TransactionProvider
-import com.example.stamp.repositories.OrderRepository
+import io.github.mvandermade.fup.order.exchange.dtos.OrderDTO
+import io.github.mvandermade.fup.order.exchange.entities.OrderEntity
+import io.github.mvandermade.fup.order.exchange.exceptions.OrderNotFoundV1Exception
+import io.github.mvandermade.fup.order.exchange.mappers.OrderMapper
+import io.github.mvandermade.fup.order.exchange.providers.TransactionProvider
+import io.github.mvandermade.fup.order.exchange.repositories.OrderRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

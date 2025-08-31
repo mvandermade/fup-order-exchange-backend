@@ -1,6 +1,6 @@
 package io.github.mvandermade.fup.order.exchange.controllers.responses
 
-import com.example.stamp.dtos.StampDTO
+import io.github.mvandermade.fup.order.exchange.dtos.StampDTO
 
 data class OrderV1Response(
     val id: Long,

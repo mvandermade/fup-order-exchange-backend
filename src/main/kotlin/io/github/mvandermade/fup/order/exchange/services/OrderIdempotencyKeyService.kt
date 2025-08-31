@@ -1,10 +1,10 @@
 package io.github.mvandermade.fup.order.exchange.services
 
-import com.example.stamp.dtos.OrderIdempotencyKeyDTO
-import com.example.stamp.entities.OrderIdempotencyKeyEntity
-import com.example.stamp.mappers.IdempotencyKeyMapper
-import com.example.stamp.repositories.OrderIdempotencyKeyRepository
-import com.example.stamp.repositories.OrderRepository
+import io.github.mvandermade.fup.order.exchange.dtos.OrderIdempotencyKeyDTO
+import io.github.mvandermade.fup.order.exchange.entities.OrderIdempotencyKeyEntity
+import io.github.mvandermade.fup.order.exchange.mappers.IdempotencyKeyMapper
+import io.github.mvandermade.fup.order.exchange.repositories.OrderIdempotencyKeyRepository
+import io.github.mvandermade.fup.order.exchange.repositories.OrderRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

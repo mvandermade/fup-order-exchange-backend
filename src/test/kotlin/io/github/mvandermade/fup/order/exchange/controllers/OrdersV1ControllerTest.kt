@@ -1,9 +1,9 @@
 package io.github.mvandermade.fup.order.exchange.controllers
 
-import com.example.stamp.dtos.OrderIdempotencyKeyDTO
-import com.example.stamp.mappers.OrderMapper
-import com.example.stamp.services.OrderIdempotencyKeyService
-import com.example.stamp.services.OrderService
+import io.github.mvandermade.fup.order.exchange.dtos.OrderIdempotencyKeyDTO
+import io.github.mvandermade.fup.order.exchange.mappers.OrderMapper
+import io.github.mvandermade.fup.order.exchange.services.OrderIdempotencyKeyService
+import io.github.mvandermade.fup.order.exchange.services.OrderService
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

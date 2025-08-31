@@ -1,7 +1,7 @@
 package io.github.mvandermade.fup.order.exchange.daemons
 
-import com.example.stamp.providers.TransactionProvider
-import com.example.stamp.services.StampService
+import io.github.mvandermade.fup.order.exchange.providers.TransactionProvider
+import io.github.mvandermade.fup.order.exchange.services.StampService
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

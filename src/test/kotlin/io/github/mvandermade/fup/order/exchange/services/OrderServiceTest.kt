@@ -1,14 +1,14 @@
 package io.github.mvandermade.fup.order.exchange.services
 
-import com.example.stamp.entities.OrderEntity
-import com.example.stamp.entities.OrderIdempotencyKeyEntity
-import com.example.stamp.entities.OrderStampEntity
-import com.example.stamp.entities.StampEntity
-import com.example.stamp.repositories.OrderIdempotencyKeyRepository
-import com.example.stamp.repositories.OrderRepository
-import com.example.stamp.repositories.OrderStampRepository
-import com.example.stamp.repositories.StampRepository
-import com.example.stamp.testutils.buildPostgresContainer
+import io.github.mvandermade.fup.order.exchange.entities.OrderEntity
+import io.github.mvandermade.fup.order.exchange.entities.OrderIdempotencyKeyEntity
+import io.github.mvandermade.fup.order.exchange.entities.OrderStampEntity
+import io.github.mvandermade.fup.order.exchange.entities.StampEntity
+import io.github.mvandermade.fup.order.exchange.repositories.OrderIdempotencyKeyRepository
+import io.github.mvandermade.fup.order.exchange.repositories.OrderRepository
+import io.github.mvandermade.fup.order.exchange.repositories.OrderStampRepository
+import io.github.mvandermade.fup.order.exchange.repositories.StampRepository
+import io.github.mvandermade.fup.order.exchange.testutils.buildPostgresContainer
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach

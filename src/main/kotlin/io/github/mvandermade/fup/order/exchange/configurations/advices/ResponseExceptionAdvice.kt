@@ -1,7 +1,7 @@
 package io.github.mvandermade.fup.order.exchange.configurations.advices
 
-import com.example.stamp.exceptions.ResponseV1Exception
-import com.example.stamp.mappers.ExceptionMapper
+import io.github.mvandermade.fup.order.exchange.exceptions.ResponseV1Exception
+import io.github.mvandermade.fup.order.exchange.mappers.ExceptionMapper
 import io.swagger.v3.oas.annotations.Hidden
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order

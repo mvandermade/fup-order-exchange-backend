@@ -1,10 +1,10 @@
 package io.github.mvandermade.fup.order.exchange.controllers
 
-import com.example.stamp.controllers.requests.StampReportV1Request
-import com.example.stamp.controllers.responses.StampReportV1Response
-import com.example.stamp.mappers.ReportMapper
-import com.example.stamp.services.ReportService
-import com.example.stamp.services.StampReportIdempotencyKeyService
+import io.github.mvandermade.fup.order.exchange.controllers.requests.StampReportV1Request
+import io.github.mvandermade.fup.order.exchange.controllers.responses.StampReportV1Response
+import io.github.mvandermade.fup.order.exchange.mappers.ReportMapper
+import io.github.mvandermade.fup.order.exchange.services.ReportService
+import io.github.mvandermade.fup.order.exchange.services.StampReportIdempotencyKeyService
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

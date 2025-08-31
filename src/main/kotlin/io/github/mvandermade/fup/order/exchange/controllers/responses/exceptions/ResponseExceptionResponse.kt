@@ -1,6 +1,6 @@
 package io.github.mvandermade.fup.order.exchange.controllers.responses.exceptions
 
-import com.example.stamp.exceptions.ErrorCode
+import io.github.mvandermade.fup.order.exchange.exceptions.ErrorCode
 
 data class ResponseExceptionResponse(
     // To proxies changing the code

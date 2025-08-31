@@ -1,14 +1,14 @@
 package io.github.mvandermade.fup.order.exchange.controllers
 
-import com.example.stamp.controllers.responses.OrderV1Response
-import com.example.stamp.entities.OrderEntity
-import com.example.stamp.entities.StampEntity
-import com.example.stamp.repositories.OrderRepository
-import com.example.stamp.repositories.OrderStampRepository
-import com.example.stamp.repositories.StampRepository
-import com.example.stamp.testutils.buildPostgresContainer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import io.github.mvandermade.fup.order.exchange.controllers.responses.OrderV1Response
+import io.github.mvandermade.fup.order.exchange.entities.OrderEntity
+import io.github.mvandermade.fup.order.exchange.entities.StampEntity
+import io.github.mvandermade.fup.order.exchange.repositories.OrderRepository
+import io.github.mvandermade.fup.order.exchange.repositories.OrderStampRepository
+import io.github.mvandermade.fup.order.exchange.repositories.StampRepository
+import io.github.mvandermade.fup.order.exchange.testutils.buildPostgresContainer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested

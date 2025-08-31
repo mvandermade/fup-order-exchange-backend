@@ -1,9 +1,9 @@
 package io.github.mvandermade.fup.order.exchange.mappers
 
-import com.example.stamp.controllers.responses.exceptions.ResponseExceptionResponse
-import com.example.stamp.exceptions.ErrorCode
-import com.example.stamp.exceptions.ResponseV1Exception
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.mvandermade.fup.order.exchange.controllers.responses.exceptions.ResponseExceptionResponse
+import io.github.mvandermade.fup.order.exchange.exceptions.ErrorCode
+import io.github.mvandermade.fup.order.exchange.exceptions.ResponseV1Exception
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.stereotype.Component

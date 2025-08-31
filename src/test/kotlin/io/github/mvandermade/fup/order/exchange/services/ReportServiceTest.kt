@@ -1,11 +1,11 @@
 package io.github.mvandermade.fup.order.exchange.services
 
-import com.example.stamp.controllers.requests.StampReportV1Request
-import com.example.stamp.providers.TimeProvider
-import com.example.stamp.repositories.StampReportIdempotencyKeyRepository
-import com.example.stamp.repositories.StampReportRepository
-import com.example.stamp.testutils.buildPostgresContainer
 import com.ninjasquad.springmockk.MockkBean
+import io.github.mvandermade.fup.order.exchange.controllers.requests.StampReportV1Request
+import io.github.mvandermade.fup.order.exchange.providers.TimeProvider
+import io.github.mvandermade.fup.order.exchange.repositories.StampReportIdempotencyKeyRepository
+import io.github.mvandermade.fup.order.exchange.repositories.StampReportRepository
+import io.github.mvandermade.fup.order.exchange.testutils.buildPostgresContainer
 import io.mockk.every
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach

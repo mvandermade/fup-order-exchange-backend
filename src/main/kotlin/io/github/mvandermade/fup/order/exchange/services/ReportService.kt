@@ -1,12 +1,12 @@
 package io.github.mvandermade.fup.order.exchange.services
 
-import com.example.stamp.controllers.requests.StampReportV1Request
-import com.example.stamp.dtos.StampReportDTO
-import com.example.stamp.entities.StampReportEntity
-import com.example.stamp.exceptions.StampReportNotFoundV1Exception
-import com.example.stamp.mappers.ReportMapper
-import com.example.stamp.providers.TransactionProvider
-import com.example.stamp.repositories.StampReportRepository
+import io.github.mvandermade.fup.order.exchange.controllers.requests.StampReportV1Request
+import io.github.mvandermade.fup.order.exchange.dtos.StampReportDTO
+import io.github.mvandermade.fup.order.exchange.entities.StampReportEntity
+import io.github.mvandermade.fup.order.exchange.exceptions.StampReportNotFoundV1Exception
+import io.github.mvandermade.fup.order.exchange.mappers.ReportMapper
+import io.github.mvandermade.fup.order.exchange.providers.TransactionProvider
+import io.github.mvandermade.fup.order.exchange.repositories.StampReportRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

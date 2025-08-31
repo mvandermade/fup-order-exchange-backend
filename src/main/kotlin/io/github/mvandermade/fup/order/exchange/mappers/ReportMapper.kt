@@ -1,8 +1,8 @@
 package io.github.mvandermade.fup.order.exchange.mappers
 
-import com.example.stamp.controllers.responses.StampReportV1Response
-import com.example.stamp.dtos.StampReportDTO
-import com.example.stamp.entities.StampReportEntity
+import io.github.mvandermade.fup.order.exchange.controllers.responses.StampReportV1Response
+import io.github.mvandermade.fup.order.exchange.dtos.StampReportDTO
+import io.github.mvandermade.fup.order.exchange.entities.StampReportEntity
 import org.springframework.stereotype.Component
 
 @Component

@@ -1,9 +1,9 @@
 package io.github.mvandermade.fup.order.exchange.services
 
-import com.example.stamp.providers.EmojiProvider
-import com.example.stamp.repositories.StampRepository
-import com.example.stamp.testutils.buildPostgresContainer
 import com.ninjasquad.springmockk.MockkBean
+import io.github.mvandermade.fup.order.exchange.providers.EmojiProvider
+import io.github.mvandermade.fup.order.exchange.repositories.StampRepository
+import io.github.mvandermade.fup.order.exchange.testutils.buildPostgresContainer
 import io.mockk.every
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

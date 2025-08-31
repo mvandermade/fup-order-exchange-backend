@@ -1,14 +1,14 @@
 package io.github.mvandermade.fup.order.exchange.controllers
 
-import com.example.stamp.controllers.requests.StampReportV1Request
-import com.example.stamp.controllers.responses.StampReportV1Response
-import com.example.stamp.repositories.StampReportIdempotencyKeyRepository
-import com.example.stamp.repositories.StampReportRepository
-import com.example.stamp.services.ReportService
-import com.example.stamp.testutils.buildPostgresContainer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.ninjasquad.springmockk.SpykBean
+import io.github.mvandermade.fup.order.exchange.controllers.requests.StampReportV1Request
+import io.github.mvandermade.fup.order.exchange.controllers.responses.StampReportV1Response
+import io.github.mvandermade.fup.order.exchange.repositories.StampReportIdempotencyKeyRepository
+import io.github.mvandermade.fup.order.exchange.repositories.StampReportRepository
+import io.github.mvandermade.fup.order.exchange.services.ReportService
+import io.github.mvandermade.fup.order.exchange.testutils.buildPostgresContainer
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach

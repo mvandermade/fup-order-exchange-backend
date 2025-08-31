@@ -1,6 +1,6 @@
 package io.github.mvandermade.fup.order.exchange.repositories
 
-import com.example.stamp.testutils.buildPostgresContainer
+import io.github.mvandermade.fup.order.exchange.testutils.buildPostgresContainer
 import nl.wykorijnsburger.kminrandom.minRandom
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertNotNull

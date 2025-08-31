@@ -1,9 +1,9 @@
 package io.github.mvandermade.fup.order.exchange.mappers
 
-import com.example.stamp.dtos.OrderIdempotencyKeyDTO
-import com.example.stamp.dtos.StampReportIdempotencyKeyDTO
-import com.example.stamp.entities.OrderIdempotencyKeyEntity
-import com.example.stamp.entities.StampReportIdempotencyKeyEntity
+import io.github.mvandermade.fup.order.exchange.dtos.OrderIdempotencyKeyDTO
+import io.github.mvandermade.fup.order.exchange.dtos.StampReportIdempotencyKeyDTO
+import io.github.mvandermade.fup.order.exchange.entities.OrderIdempotencyKeyEntity
+import io.github.mvandermade.fup.order.exchange.entities.StampReportIdempotencyKeyEntity
 import org.springframework.stereotype.Component
 
 @Component
