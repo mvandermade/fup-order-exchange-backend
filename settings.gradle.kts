@@ -1,1 +1,1 @@
-rootProject.name = "fup-order-exchange"
+rootProject.name = "fup-order-exchange-backend"
