@@ -2,6 +2,10 @@
 Inspired by the stamps now in use, this service instead generates random emoji.
 This is to avoid confusion with real ones.
 
+# Development
+- use vscode or intellij idea (ultimate or community)
+- lint your code using ktlint format gradle action
+
 # Flows
 ## REST
 - Place an order 
