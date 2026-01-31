@@ -1,6 +1,7 @@
 package io.github.mvandermade.fup.order.exchange.controllers
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.ninjasquad.springmockk.SpykBean
 import io.github.mvandermade.fup.order.exchange.controllers.requests.StampReportV1Request
@@ -14,9 +15,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -30,12 +31,16 @@ import java.time.OffsetDateTime
 @AutoConfigureMockMvc
 class ReportsV1ControllerTest(
     @param:Autowired private val mockMvc: MockMvc,
-    @param:Autowired private val objectMapper: ObjectMapper,
     @param:Autowired private val stampReportRepository: StampReportRepository,
     @param:Autowired private val stampReportIdempotencyKeyRepository: StampReportIdempotencyKeyRepository,
 ) {
     @SpykBean
     private lateinit var reportService: ReportService
+
+    private val objectMapper =
+        jacksonObjectMapper().apply {
+            registerModule(JavaTimeModule())
+        }
 
     @BeforeEach
     fun setUp() {
